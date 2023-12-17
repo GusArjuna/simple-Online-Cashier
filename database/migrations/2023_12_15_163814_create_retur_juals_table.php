@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('harga');
             $table->string('total');
             $table->string('Alasan');
-            $table->date('tanggal');
             $table->timestamps();
         });
     }

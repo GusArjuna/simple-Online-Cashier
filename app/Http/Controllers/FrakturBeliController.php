@@ -7,6 +7,7 @@ use App\Http\Requests\StorefrakturBeliRequest;
 use App\Http\Requests\UpdatefrakturBeliRequest;
 use App\Models\food;
 use App\Models\member;
+use App\Models\nomorRegisFrakturBeli;
 use App\Models\supplier;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
@@ -19,15 +20,12 @@ class FrakturBeliController extends Controller
     public function index()
     {
         $suppliers = supplier::all();
-        $foods = food::all();
-        $buyFractures = frakturBeli::query();
+        $buyFracturenumbers = nomorRegisFrakturBeli::query();
         if(request('search')){                                     
             $querytambahan1=supplier::where('kode','like','%'.request('search').'%')
                                         ->orWhere('nama','like','%'.request('search').'%')->get();
-            $querytambahan2=food::where('kode','like','%'.request('search').'%')
-                                        ->orWhere('nama','like','%'.request('search').'%')->get();
                                         
-            $buyFractures->where('kodeMakanan','like','%'.request('search').'%')
+            $buyFracturenumbers->where('kode','like','%'.request('search').'%')
                                         ->orWhere('kodeSupplier','like','%'.request('search').'%')
                                         ->orWhere('qty','like','%'.request('search').'%')
                                         ->orWhere('harga','like','%'.request('search').'%')
@@ -36,18 +34,12 @@ class FrakturBeliController extends Controller
             
             foreach($querytambahan1 as $querytambahan){
                 $querybantuan= (string)$querytambahan->kode;
-                $buyFractures->orWhere('kodeSupplier','like','%'.$querybantuan.'%');
-            }
-
-            foreach($querytambahan2 as $querytambahan){
-                $querybantuan= (string)$querytambahan->kode;
-                $buyFractures->orWhere('kodeMakanan','like','%'.$querybantuan.'%');
+                $buyFracturenumbers->orWhere('kodeSupplier','like','%'.$querybantuan.'%');
             }
         }
         return view('buyFractures/buyFracture',[
             "title"=>"Fraktur Beli",
-            "buyFractures" => $buyFractures->paginate(15),
-            "foods" => $foods,
+            "buyFracturenumbers" => $buyFracturenumbers->paginate(15),
             "suppliers" => $suppliers,
             ]);
     }
@@ -57,12 +49,19 @@ class FrakturBeliController extends Controller
      */
     public function create()
     {
+        $nomorRegis = nomorRegisFrakturBeli::latest()->first()->id??false;
+        if($nomorRegis){
+            $nomorRegis = 'BFR'.($nomorRegis+1);
+        }else{
+            $nomorRegis = 'BFR1';
+        }
         $foods = food::all();
         $suppliers = supplier::all();
         return view('buyFractures/buyFractureIn',[
             "title"=>"Tambah Fraktur Beli",
             "foods" => $foods,
             "suppliers" => $suppliers,
+            "nomorRegis" => $nomorRegis,
         ]);
     }
 
@@ -71,15 +70,57 @@ class FrakturBeliController extends Controller
      */
     public function store(StorefrakturBeliRequest $request)
     {
-        dd($request);
+        $validatedData = $request->validate([
+            'nomorRegis' => 'required',
+            'supplier' => 'required',
+            'food.*' => 'required',
+            'qty.*' => 'required',
+            'totalKeseluruhan' => 'required',
+            'tanggal' => 'required',
+            'harga.*' => 'required',
+            'total.*' => 'required',
+        ]);          
+       for ($i=0; $i < count($request->qty); $i++) { 
+            $food = food::query()->where('kode','like','%'.$validatedData['food'][$i].'%')->get()->first();
+            $newQty = $food->qty + intval($validatedData['qty'][$i]);
+            food::where('id',$food->id)
+                    ->update(['qty'=> $newQty]);
+           
+            frakturBeli::create([
+                'kodeTransaksi' => $validatedData['nomorRegis'],
+                'kodeMakanan' => $validatedData['food'][$i],
+                'qty' => $validatedData['qty'][$i],
+                'harga' => $validatedData['harga'][$i],
+                'total' => $validatedData['total'][$i],
+                // ... dan seterusnya sesuai dengan field yang ada pada model Item
+            ]);
+        }
+        nomorRegisFrakturBeli::create([
+            'kode' => $validatedData['nomorRegis'],
+            'kodeSupplier' => $validatedData['supplier'],
+            'total' => $validatedData['totalKeseluruhan'],
+            'tanggal' => $validatedData['tanggal'],
+            // ... dan seterusnya sesuai dengan field yang ada pada model Item
+        ]);
+        return redirect('/buyFractures')->with('success','Data diupdate');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(frakturBeli $frakturBeli)
+    public function show($request)
     {
-        //
+        $nomorRegis=nomorRegisFrakturBeli::all()->find($request);
+        $buyFractures = frakturBeli::query()->where('kodeTransaksi','like','%'.$nomorRegis->kode.'%')->get();
+        $supplier = supplier::query()->where('kode','like','%'.$nomorRegis->kodeSupplier.'%')->get()->first();
+        $foods=food::all();
+        return view('buyFractures/buyFracturePrint',[
+            "title"=>"Detail Fraktur Beli",
+            "foods" => $foods,
+            "supplier" => $supplier,
+            "buyFractures" => $buyFractures,
+            "nomorRegis" => $nomorRegis,
+        ]);
     }
 
     /**

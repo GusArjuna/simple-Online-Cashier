@@ -5,16 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class returJual extends Model
+class nomorRegisFrakturJual extends Model
 {
     use HasFactory;
     protected $fillable=[
-        'kodeTransaksi',
-        'kodeMakanan',
-        'kodeMember',
-        'qty',
-        'harga',
+        'kode',
         'total',
-        'alasan',
+        'kodeMember',
+        'tanggal',
     ];
 }

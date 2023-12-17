@@ -23,6 +23,7 @@ return new class extends Migration
             $table->integer('biayaPemesanan');
             $table->integer('lifeTime');
             $table->string('keterangan');
+            $table->string('penjualan')->nullable();
             $table->timestamps();
         });
     }

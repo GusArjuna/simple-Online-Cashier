@@ -84,10 +84,10 @@
                             <td> {{ $member->alamat}}</td>
                             <td> {{ $member->keterangan}}</td>
                             <td> {{ $member->status}}</td>
-                            <td> <a href="/member/{{ $member->id }}/editdata" class="btn btn-warning btn-circle">
+                            <td> <a href="/member/{{ $member->id }}/editdata" class="btn btn-warning btn-sm">
                                 <i class="bi bi-pencil-fill"></i>
                                 </a>
-                                <button type="submit" value="{{ $member->id }}" name="delete" class="btn btn-danger btn-circle" onclick="return confirm('Yakin?')">
+                                <button type="submit" value="{{ $member->id }}" name="delete" class="btn btn-danger btn-sm" onclick="return confirm('Yakin?')">
                                     <i class="bi bi-trash-fill"></i>
                                 </button> </td>
                         </tr>

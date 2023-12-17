@@ -45,18 +45,16 @@
         <div class="alert alert-success">{{ session('success') }}</div>
         @endif
         <div class="card-body">
-            {{ $sellFractures->links() }}
+            {{ $sellFracturenumbers->links() }}
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
                             <th></th>
                             <th>No</th>
-                            <th>Kode - Nama Makanan</th>
+                            <th>Nomor Fracture</th>
                             <th>Kode - Nama Member</th>
-                            <th>Qty</th>
-                            <th>Harga</th>
-                            <th>Total</th>
+                            <th>Total Harga</th>
                             <th>Tanggal</th>
                             <th>Aksi</th>
                         </tr>
@@ -65,45 +63,31 @@
                         <tr>
                             <th></th>
                             <th>No</th>
-                            <th>Kode - Nama Makanan</th>
+                            <th>Nomor Fracture</th>
                             <th>Kode - Nama Member</th>
-                            <th>Qty</th>
-                            <th>Harga</th>
-                            <th>Total</th>
+                            <th>Total Harga</th>
                             <th>Tanggal</th>
                             <th>Aksi</th>
                         </tr>
                     </tfoot>
                     <tbody>
-                        @foreach ($sellFractures as $sellFracture)
+                        @foreach ($sellFracturenumbers as $sellFracturenumber)
                         <tr>
-                            <td> <input type="checkbox" name="print{{ $sellFracture->id }}" id="print{{ $sellFracture->id }}" value="{{ $sellFracture->id }}"> </td>
+                            <td> <input type="checkbox" name="print{{ $sellFracturenumber->id }}" id="print{{ $sellFracturenumber->id }}" value="{{ $sellFracturenumber->id }}"> </td>
                             <td> {{ $loop->iteration }} </td>
-                            <td>  @foreach ($foods as $food)
-                                @if ($food->kode == $sellFracture->kodeMakanan)
-                                    {{ $food->kode - $food->nama}}
-                                    @break
-                                @endif
-                                @endforeach
-                            </td>
+                            <td> {{ $sellFracturenumber->kode }} </td>
                             <td>  @foreach ($members as $member)
-                                @if ($member->kode == $sellFracture->kodeSupplier)
-                                    {{ $member->kode - $member->nama}}
+                                @if ($member->kode == $sellFracturenumber->kodeMember)
+                                    {{ $member->kode.' - '.$member->nama}}
                                     @break
                                 @endif
                                 @endforeach
                             </td>
-                            <td> {{ $sellFracture->qty }} </td>
-                            <td> {{ $sellFracture->harga}} </td>
-                            <td> {{ $sellFracture->total }} </td>
-                            <td> {{ $sellFracture->tanggal }} </td>
-                            <td> <a href="/sellFracture/{{ $sellFracture->id }}/editdata" class="btn btn-warning btn-circle">
-                                <i class="bi bi-pencil-fill"></i>
-                                </a>
-                                <button type="submit" value="{{ $sellFracture->id }}" name="delete" class="btn btn-danger btn-circle" onclick="return confirm('Yakin?')">
-                                    <i class="bi bi-trash-fill"></i>
-                                </button> 
-                            </td>
+                            <td> {{ $sellFracturenumber->total }} </td>
+                            <td> {{ $sellFracturenumber->tanggal}} </td>
+                            <td> <a href="/sellFracture/{{ $sellFracturenumber->id }}/show" class="btn btn-info btn-sm">
+                                <i class="bi bi-info-lg"></i>
+                                </a> </td>
                         </tr>
                         @endforeach
                     </tbody>

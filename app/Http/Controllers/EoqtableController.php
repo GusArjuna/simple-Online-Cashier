@@ -6,12 +6,28 @@ use App\Models\eoqtable;
 use App\Http\Requests\StoreeoqtableRequest;
 use App\Http\Requests\UpdateeoqtableRequest;
 use App\Models\food;
+use App\Models\member;
+use App\Models\supplier;
 
 class EoqtableController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+    public function dashboard(){
+        $foodCount = food::count();
+        $memberCount = member::count();
+        $supplierCount = supplier::count();
+        $foods = food::orderBy('penjualan','desc')->paginate(15);
+        return view("dashboard",[
+            "title" => "Dashboard",
+            "foodCount" => $foodCount,
+            "memberCount" => $memberCount,
+            "supplierCount" => $supplierCount,
+            "foods" => $foods,
+        ]);
+    }
+
     public function index()
     {
         $foods = food::all();

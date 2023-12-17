@@ -11,15 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('retur_belis', function (Blueprint $table) {
+        Schema::create('nomor_regis_fraktur_juals', function (Blueprint $table) {
             $table->id();
-            $table->string('kodeTransaksi');
-            $table->string('kodeMakanan');
-            $table->string('kodeSupplier');
-            $table->integer('qty');
-            $table->string('harga');
+            $table->string('kode');
             $table->string('total');
-            $table->string('Alasan');
+            $table->string('kodeMember');
+            $table->date('tanggal');
             $table->timestamps();
         });
     }
@@ -29,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('retur_belis');
+        Schema::dropIfExists('nomor_regis_fraktur_juals');
     }
 };

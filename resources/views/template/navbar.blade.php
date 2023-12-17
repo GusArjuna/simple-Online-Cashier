@@ -133,11 +133,11 @@
               <i class="bi bi-circle"></i><span>Pelanggan / Member</span>
             </a>
           </li>
-          <li>
+          {{-- <li>
             <a href="{{ url('/inventories') }}">
               <i class="bi bi-circle"></i><span>Gudang</span>
             </a>
-          </li>
+          </li> --}}
         </ul>
       </li><!-- End Components Nav -->
 
@@ -157,7 +157,7 @@
         </a>
       </li><!-- End  -->
 
-      <li class="nav-item">
+      {{-- <li class="nav-item">
         <a class="nav-link collapsed" href="{{ url('/buyReturns') }}">
           <i class="ri-shopping-cart-line"></i>
           <span>Retur Beli</span>
@@ -169,7 +169,7 @@
           <i class="ri-shopping-cart-fill"></i>
           <span>Retur Jual</span>
         </a>
-      </li><!-- End  -->
+      </li><!-- End  --> --}}
 
 
     </ul>

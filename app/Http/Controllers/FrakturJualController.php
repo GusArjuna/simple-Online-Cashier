@@ -7,6 +7,7 @@ use App\Http\Requests\StorefrakturJualRequest;
 use App\Http\Requests\UpdatefrakturJualRequest;
 use App\Models\food;
 use App\Models\member;
+use App\Models\nomorRegisFrakturJual;
 
 class FrakturJualController extends Controller
 {
@@ -17,14 +18,14 @@ class FrakturJualController extends Controller
     {
         $members = member::all();
         $foods = food::all();
-        $sellFractures = frakturJual::query();
+        $sellFracturenumbers = nomorRegisFrakturJual::query();
         if(request('search')){                                     
             $querytambahan1=member::where('kode','like','%'.request('search').'%')
                                         ->orWhere('nama','like','%'.request('search').'%')->get();
             $querytambahan2=food::where('kode','like','%'.request('search').'%')
                                         ->orWhere('nama','like','%'.request('search').'%')->get();
                                         
-            $sellFractures->where('kodeMakanan','like','%'.request('search').'%')
+            $sellFracturenumbers->where('kodeMakanan','like','%'.request('search').'%')
                                 ->orWhere('kodeMember','like','%'.request('search').'%')
                                 ->orWhere('qty','like','%'.request('search').'%')
                                 ->orWhere('harga','like','%'.request('search').'%')
@@ -33,17 +34,17 @@ class FrakturJualController extends Controller
             
             foreach($querytambahan1 as $querytambahan){
                 $querybantuan= (string)$querytambahan->kode;
-                $sellFractures->orWhere('kode','like','%'.$querybantuan.'%');
+                $sellFracturenumbers->orWhere('kode','like','%'.$querybantuan.'%');
             }
 
             foreach($querytambahan2 as $querytambahan){
                 $querybantuan= (string)$querytambahan->kode;
-                $sellFractures->orWhere('kode','like','%'.$querybantuan.'%');
+                $sellFracturenumbers->orWhere('kode','like','%'.$querybantuan.'%');
             }
         }
         return view('sellFractures/sellFracture',[
             "title"=>"Fraktur Jual",
-            "sellFractures" => $sellFractures->paginate(15),
+            "sellFracturenumbers" => $sellFracturenumbers->paginate(15),
             "foods" => $foods,
             "members" => $members,
             ]);
@@ -54,12 +55,19 @@ class FrakturJualController extends Controller
      */
     public function create()
     {
+        $nomorRegis = nomorRegisFrakturJual::latest()->first()->id??false;
+        if($nomorRegis){
+            $nomorRegis = 'BFR'.$nomorRegis;
+        }else{
+            $nomorRegis = 'BFR1';
+        }
         $foods = food::all();
         $members = member::all();
         return view('sellFractures/sellFractureIn',[
             "title"=>"Tambah Fraktur Jual",
             "foods" => $foods,
             "members" => $members,
+            "nomorRegis" => $nomorRegis,
         ]);
     }
 
@@ -68,15 +76,58 @@ class FrakturJualController extends Controller
      */
     public function store(StorefrakturJualRequest $request)
     {
-        //
+        $validatedData = $request->validate([
+            'nomorRegis' => 'required',
+            'member' => 'required',
+            'food.*' => 'required',
+            'qty.*' => 'required',
+            'totalKeseluruhan' => 'required',
+            'tanggal' => 'required',
+            'harga.*' => 'required',
+            'total.*' => 'required',
+        ]);          
+       for ($i=0; $i < count($request->qty); $i++) { 
+           
+            $food = food::query()->where('kode','like','%'.$validatedData['food'][$i].'%')->get()->first();
+            $newQty = $food->qty - intval($validatedData['qty'][$i]);
+            food::where('id',$food->id)
+                    ->update(['qty'=> $newQty]);
+           
+            frakturJual::create([
+                'kodeTransaksi' => $validatedData['nomorRegis'],
+                'kodeMakanan' => $validatedData['food'][$i],
+                'qty' => $validatedData['qty'][$i],
+                'harga' => $validatedData['harga'][$i],
+                'total' => $validatedData['total'][$i],
+                // ... dan seterusnya sesuai dengan field yang ada pada model Item
+            ]);
+        }
+        nomorRegisFrakturJual::create([
+            'kode' => $validatedData['nomorRegis'],
+            'kodeMember' => $validatedData['member'],
+            'total' => $validatedData['totalKeseluruhan'],
+            'tanggal' => $validatedData['tanggal'],
+            // ... dan seterusnya sesuai dengan field yang ada pada model Item
+        ]);
+        return redirect('/sellFractures')->with('success','Data Ditambahkan');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(frakturJual $frakturJual)
+    public function show($request)
     {
-        //
+        $nomorRegis=nomorRegisFrakturJual::all()->find($request);
+        $sellFractures = frakturJual::query()->where('kodeTransaksi','like','%'.$nomorRegis->kode.'%')->get();
+        $member = member::query()->where('kode','like','%'.$nomorRegis->kodeMember.'%')->get()->first();
+        $foods=food::all();
+        return view('sellFractures/sellFracturePrint',[
+            "title"=>"Detail Fraktur Beli",
+            "foods" => $foods,
+            "member" => $member,
+            "sellFractures" => $sellFractures,
+            "nomorRegis" => $nomorRegis,
+        ]);
     }
 
     /**

@@ -57,6 +57,7 @@
                             <th>Harga Beli</th>
                             <th>Harga Jual</th>
                             <th>Keterangan</th>
+                            <th>qr</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -70,6 +71,7 @@
                             <th>Harga Beli</th>
                             <th>Harga Jual</th>
                             <th>Keterangan</th>
+                            <th>qr</th>
                             <th>Aksi</th>
                         </tr>
                     </tfoot>
@@ -90,10 +92,15 @@
                             <td> {{ $food->hargaBeli}} </td>
                             <td> {{ $food->hargaJual}} </td>
                             <td> {{ $food->keterangan}} </td>
-                            <td>  <a href="/food/{{ $food->id }}/editdata" class="btn btn-warning btn-circle">
+                            <td> 
+                                <div class="visible-print text-center">
+                                    {!! QrCode::size(50)->generate($food->kode); !!}
+                                </div>
+                            </td>
+                            <td>  <a href="/food/{{ $food->id }}/editdata" class="btn btn-warning btn-sm">
                                 <i class="bi bi-pencil-fill"></i>
                                 </a>
-                                <button type="submit" value="{{ $food->id }}" name="delete" class="btn btn-danger btn-circle" onclick="return confirm('Yakin?')">
+                                <button type="submit" value="{{ $food->id }}" name="delete" class="btn btn-danger btn-sm" onclick="return confirm('Yakin?')">
                                     <i class="bi bi-trash-fill"></i>
                                 </button>  
                             </td>

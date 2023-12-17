@@ -15,11 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('kodeTransaksi');
             $table->string('kodeMakanan');
-            $table->string('kodeMember');
             $table->integer('qty');
             $table->string('harga');
             $table->string('total');
-            $table->date('tanggal');
             $table->timestamps();
         });
     }

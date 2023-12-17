@@ -81,10 +81,10 @@
                             <td> {{ $supplier->noTelp}} </td>
                             <td> {{ $supplier->alamat}}</td>
                             <td> {{ $supplier->keterangan}}</td>
-                            <td> <a href="/supplier/{{ $supplier->id }}/editdata" class="btn btn-warning btn-circle">
+                            <td> <a href="/supplier/{{ $supplier->id }}/editdata" class="btn btn-warning btn-sm">
                                 <i class="bi bi-pencil-fill"></i>
                                 </a>
-                                <button type="submit" value="{{ $supplier->id }}" name="delete" class="btn btn-danger btn-circle" onclick="return confirm('Yakin?')">
+                                <button type="submit" value="{{ $supplier->id }}" name="delete" class="btn btn-danger btn-sm" onclick="return confirm('Yakin?')">
                                     <i class="bi bi-trash-fill"></i>
                                 </button> </td>
                         </tr>

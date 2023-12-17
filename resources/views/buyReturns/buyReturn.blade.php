@@ -101,7 +101,7 @@
                             <td> {{ $buyReturn->tanggal }} </td>
                             <td> {{ $buyReturn->alasan }} </td>
                             <td> <a href="/buyReturn/{{ $buyReturn->id }}/editdata" class="btn btn-warning btn-circle">
-                                <i class="bi bi-pencil-fill"></i>
+                                <i class="bi bi-info-lg"></i>
                                 </a>
                                 <button type="submit" value="{{ $buyReturn->id }}" name="delete" class="btn btn-danger btn-circle" onclick="return confirm('Yakin?')">
                                     <i class="bi bi-trash-fill"></i>

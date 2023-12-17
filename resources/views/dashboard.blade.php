@@ -35,7 +35,7 @@
                 <i class="bi bi-cart"></i>
               </div>
               <div class="ps-3">
-                <h6>145</h6>
+                <h6>{{ $foodCount }}</h6>
               </div>
             </div>
           </div>
@@ -54,7 +54,7 @@
                 <i class="bi bi-person-lines-fill"></i>
               </div>
               <div class="ps-3">
-                <h6>$3,264</h6>
+                <h6>{{ $supplierCount }}</h6>
               </div>
             </div>
           </div>
@@ -73,7 +73,7 @@
                 <i class="bi bi-people"></i>
               </div>
               <div class="ps-3">
-                <h6>1244</h6>
+                <h6>{{ $memberCount }}</h6>
               </div>
             </div>
 
@@ -93,9 +93,10 @@
             <div class="col-12">
                 <div class="card top-selling overflow-auto">
   
+                  {{ $foods->links() }}
                   <div class="card-body pb-0">
                     <h5 class="card-title">Top Selling</h5>
-  
+                    
                     <table class="table table-borderless">
                       <thead>
                         <tr>
@@ -106,14 +107,19 @@
                         </tr>
                       </thead>
                       <tbody>
+                        @foreach ($foods as $foods)
                         <tr>
-                          <td><a href="#" class="text-primary fw-bold">Ut inventore ipsa voluptas nulla</a></td>
-                          <td>$64</td>
-                          <td class="fw-bold">124</td>
-                          <td>$5,828</td>
+                            <td> {{ $foods->kode.' - '. $foods->nama}} </td>
+                            <td> {{ $foods->hargaJual }} </td>
+                            <td> {{ $foods->penjualan}} </td>
+                            <td> {{ $foods->penjualan*$foods->hargaJual}}</td>
+                        </tr>
+                        @endforeach
+                        <tr>
                         </tr>
                       </tbody>
                     </table>
+                    
   
                   </div>
   

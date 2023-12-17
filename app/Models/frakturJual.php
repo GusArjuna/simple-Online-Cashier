@@ -11,10 +11,8 @@ class frakturJual extends Model
     protected $fillable=[
         'kodeTransaksi',
         'kodeMakanan',
-        'kodeMember',
         'qty',
         'harga',
         'total',
-        'tanggal',
     ];
 }

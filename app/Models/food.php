@@ -19,5 +19,9 @@ class food extends Model
         'biayaPemesanan',
         'lifeTime',
         'keterangan',
+        'penjualan',
+    ];
+    protected $attributes =[
+        'penjualan' => 0,
     ];
 }

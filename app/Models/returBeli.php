@@ -15,7 +15,6 @@ class returBeli extends Model
         'qty',
         'harga',
         'total',
-        'tanggal',
         'alasan',
     ];
 }

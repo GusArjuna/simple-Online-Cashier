@@ -45,18 +45,16 @@
         <div class="alert alert-success">{{ session('success') }}</div>
         @endif
         <div class="card-body">
-            {{ $buyFractures->links() }}
+            {{ $buyFracturenumbers->links() }}
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
                             <th></th>
                             <th>No</th>
-                            <th>Kode - Nama Makanan</th>
+                            <th>Nomor Fracture</th>
                             <th>Kode - Nama Supplier</th>
-                            <th>Qty</th>
-                            <th>Harga</th>
-                            <th>Total</th>
+                            <th>Total Harga</th>
                             <th>Tanggal</th>
                             <th>Aksi</th>
                         </tr>
@@ -65,45 +63,31 @@
                         <tr>
                             <th></th>
                             <th>No</th>
-                            <th>Kode - Nama Makanan</th>
+                            <th>Nomor Fracture</th>
                             <th>Kode - Nama Supplier</th>
-                            <th>Qty</th>
-                            <th>Harga</th>
-                            <th>Total</th>
+                            <th>Total Harga</th>
                             <th>Tanggal</th>
                             <th>Aksi</th>
                         </tr>
                     </tfoot>
                     <tbody>
-                        @foreach ($buyFractures as $buyFracture)
+                        @foreach ($buyFracturenumbers as $buyFracturenumber)
                         <tr>
-                            <td> <input type="checkbox" name="print{{ $buyFracture->id }}" id="print{{ $buyFracture->id }}" value="{{ $buyFracture->id }}"> </td>
+                            <td> <input type="checkbox" name="print{{ $buyFracturenumber->id }}" id="print{{ $buyFracturenumber->id }}" value="{{ $buyFracturenumber->id }}"> </td>
                             <td> {{ $loop->iteration }} </td>
-                            <td>  @foreach ($foods as $food)
-                                @if ($food->kode == $buyFracture->kodeMakanan)
-                                    {{ $food->kode - $food->nama}}
-                                    @break
-                                @endif
-                                @endforeach
-                            </td>
+                            <td> {{ $buyFracturenumber->kode }} </td>
                             <td>  @foreach ($suppliers as $supplier)
-                                @if ($supplier->kode == $buyFracture->kodeSupplier)
+                                @if ($supplier->kode == $buyFracturenumber->kodeSupplier)
                                     {{ $supplier->kode.' - '.$supplier->nama}}
                                     @break
                                 @endif
                                 @endforeach
                             </td>
-                            <td> {{ $buyFracture->qty }} </td>
-                            <td> {{ $buyFracture->harga}} </td>
-                            <td> {{ $buyFracture->total }} </td>
-                            <td> {{ $buyFracture->tanggal }} </td>
-                            <td> <a href="/buyFracture/{{ $buyFracture->id }}/editdata" class="btn btn-warning btn-circle">
-                                <i class="bi bi-pencil-fill"></i>
-                                </a>
-                                <button type="submit" value="{{ $buyFracture->id }}" name="delete" class="btn btn-danger btn-circle" onclick="return confirm('Yakin?')">
-                                    <i class="bi bi-trash-fill"></i>
-                                </button> 
-                            </td>
+                            <td> {{ $buyFracturenumber->total }} </td>
+                            <td> {{ $buyFracturenumber->tanggal}} </td>
+                            <td> <a href="/buyFracture/{{ $buyFracturenumber->id }}/show" class="btn btn-info btn-sm">
+                                <i class="bi bi-info-lg"></i>
+                                </a> </td>
                         </tr>
                         @endforeach
                     </tbody>

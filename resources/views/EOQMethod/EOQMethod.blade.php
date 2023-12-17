@@ -26,7 +26,8 @@
 @section('bagan')
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <form action="/eoq/updates" method="post">
+            <form action="/eoq" method="post">
+                @csrf
                 <div class="input-group mb-3">
                     <label class="input-group-text rounded-left" style="border-radius: 0" for="inputGroupSelect01">Tahun</label>
                     <select class="form-select" name="tahun">

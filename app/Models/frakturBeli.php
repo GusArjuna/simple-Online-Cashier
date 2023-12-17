@@ -11,10 +11,8 @@ class frakturBeli extends Model
     protected $fillable=[
         'kodeTransaksi',
         'kodeMakanan',
-        'kodeSupplier',
         'qty',
         'harga',
         'total',
-        'tanggal',
     ];
 }

@@ -64,6 +64,7 @@ Route::controller(FrakturBeliController::class)->group(function () {
     Route::get('/buyFracture/datain', 'create');
     Route::post('/buyFracture/datain', 'store');
     Route::get('/buyFracture/{buyFracture}/editdata', 'edit');
+    Route::get('/buyFracture/{buyFracture}/show', 'show');
     Route::post('/buyFracture/printdel', 'printdelete');
     Route::patch('/buyFracture/{buyFracture}', 'update');
 });
@@ -73,6 +74,7 @@ Route::controller(FrakturJualController::class)->group(function () {
     Route::get('/sellFracture/datain', 'create');
     Route::post('/sellFracture/datain', 'store');
     Route::get('/sellFracture/{sellFracture}/editdata', 'edit');
+    Route::get('/sellFracture/{sellFracture}/show', 'show');
     Route::post('/sellFracture/printdel', 'printdelete');
     Route::patch('/sellFracture/{sellFracture}', 'update');
 });
@@ -110,6 +112,5 @@ Route::controller(EoqtableController::class)->group(function () {
     Route::get('/', 'dashboard');
     Route::get('/eoq', 'index');
     Route::post('/eoq', 'store');
-    Route::post('/eoq/updates', 'print');
     Route::post('/eoq/print', 'print');
 });
