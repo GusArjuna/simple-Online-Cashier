@@ -64,9 +64,9 @@
                       </div>
                       <div class="col-md-4">
                         <div class="form-floating">
-                            <input type="number" class="form-control mb-3" id="qtyMinimum" placeholder="" name="qtyMinimum" value="{{ old('qtyMinimum') }}" onkeyup="this.value = this.value.toUpperCase()" required>
-                            <label for="qtyMinimum">Qty Minimum</label>
-                            @error('qtyMinimum')
+                            <input type="number" class="form-control mb-3" id="safetyStock" placeholder="" name="safetyStock" value="{{ old('safetyStock') }}" onkeyup="this.value = this.value.toUpperCase()" required>
+                            <label for="safetyStock">Safety Stock</label>
+                            @error('safetyStock')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>

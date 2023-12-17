@@ -8,4 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class returBeli extends Model
 {
     use HasFactory;
+    protected $fillable=[
+        'kodeTransaksi',
+        'kodeMakanan',
+        'kodeSupplier',
+        'qty',
+        'harga',
+        'total',
+        'tanggal',
+        'alasan',
+    ];
 }

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\returJual;
 use App\Http\Requests\StorereturJualRequest;
 use App\Http\Requests\UpdatereturJualRequest;
+use App\Models\food;
+use App\Models\member;
 
 class ReturJualController extends Controller
 {
@@ -13,7 +15,39 @@ class ReturJualController extends Controller
      */
     public function index()
     {
-        return view('sellReturns/sellReturn',["title"=>"Retur Jual"]);
+        $members = member::all();
+        $foods = food::all();
+        $sellReturns = returJual::query();
+        if(request('search')){                                     
+            $querytambahan1=member::where('kode','like','%'.request('search').'%')
+                                        ->orWhere('nama','like','%'.request('search').'%')->get();
+            $querytambahan2=food::where('kode','like','%'.request('search').'%')
+                                        ->orWhere('nama','like','%'.request('search').'%')->get();
+                                        
+            $sellReturns->where('kodeMakanan','like','%'.request('search').'%')
+                                ->orWhere('kodeMember','like','%'.request('search').'%')
+                                ->orWhere('qty','like','%'.request('search').'%')
+                                ->orWhere('harga','like','%'.request('search').'%')
+                                ->orWhere('total','like','%'.request('search').'%')
+                                ->orWhere('alasan','like','%'.request('search').'%')
+                                ->orWhere('tanggal','like','%'.request('search').'%');
+            
+            foreach($querytambahan1 as $querytambahan){
+                $querybantuan= (string)$querytambahan->kode;
+                $sellReturns->orWhere('kode','like','%'.$querybantuan.'%');
+            }
+
+            foreach($querytambahan2 as $querytambahan){
+                $querybantuan= (string)$querytambahan->kode;
+                $sellReturns->orWhere('kode','like','%'.$querybantuan.'%');
+            }
+        }
+        return view('sellReturns/sellReturn',[
+            "title"=>"Retur Jual",
+            "sellReturns" => $sellReturns->paginate(15),
+            "foods" => $foods,
+            "members" => $members,
+            ]);
     }
 
     /**

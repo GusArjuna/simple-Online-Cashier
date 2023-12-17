@@ -19,31 +19,84 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <form action="buyFracture/datain" method="post">
+                <form action="/buyFracture/datain" method="post">
+                    @csrf
                     <div class="row g-3">
                         <div class="col-md-12">
                             <div class="form-floating">
-                                <input type="text" class="form-control mb-3" id="floatingName" placeholder="Kode Kelompok Makanan" name="kode" value="{{ old('kode') }}" onkeyup="this.value = this.value.toUpperCase()" required autofocus>
-                                <label for="floatingName">Kode</label>
-                                @error('kode')
-                                        <div class="alert alert-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-                          </div>
-                          <div class="col-md-6">
-                            <div class="form-floating">
-                                <input type="text" class="form-control mb-3" id="floatingEmail" placeholder="Nama Kelompok Makanan" name="nama" value="{{ old('nama') }}" onkeyup="this.value = this.value.toUpperCase()" required>
-                                <label for="floatingEmail">Nama</label>
-                                @error('nama')
+                                <select class="form-control @error('supplier') is-invalid @enderror" aria-label=".form-select-sm example" name="supplier" id="supplier">
+                                    <option value="">- Pilih Salah Satu -</option>
+                                    @foreach ($suppliers as $supplier)
+                                    <option {{ (old('supplier')==$supplier->kode)?"selected":"" }} value="{{ $supplier->kode }}">{{ $supplier->kode }} - {{ $supplier->nama }}</option>
+                                    @endforeach
+                                </select>
+                                <label for="supplier">Nama Supplier</label>
+                                @error('keterangan')
                                     <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
                             </div>
                           </div>
+                          <div id="inputdata">
+
+                          </div>
+                          {{-- <div class="col-md-3">
+                            <div class="form-floating">
+                                <select class="form-control @error('food') is-invalid @enderror" aria-label=".form-select-sm example" name="food" id="food">
+                                    <option value="">- Pilih Salah Satu -</option>
+                                    @foreach ($foods as $food)
+                                    <option {{ (old('food')==$food->kode)?"selected":"" }} value="{{ $food->kode }}">{{ $food->kode }} - {{ $food->nama }}</option>
+                                    @endforeach
+                                </select>
+                                <label for="food">Nama Makanan</label>
+                                @error('keterangan')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                          </div>
+                          <div class="col-md-3">
+                            <div class="form-floating">
+                                <input type="number" class="form-control mb-3" id="qty" placeholder="" name="qty" value="{{ old('qty') }}" onkeyup="this.value = this.value.toUpperCase()" required>
+                                <label for="qty">Qty</label>
+                                @error('qty')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                          </div>
+                          <div class="col-md-3">
+                            <div class="form-floating">
+                                <input type="number" class="form-control mb-3" id="harga" placeholder="" name="harga" value="{{ old('harga') }}" onkeyup="this.value = this.value.toUpperCase()" required>
+                                <label for="harga">Harga</label>
+                                @error('harga')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                          </div>
+                          <div class="col-md-2">
+                            <div class="form-floating">
+                                <input disabled type="number" class="form-control mb-3" id="total" placeholder="" name="total" value="{{ old('total') }}" onkeyup="this.value = this.value.toUpperCase()" required>
+                                <label for="total">Total</label>
+                                @error('total')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                          </div>
+                          <div class="col-md-1">
+                            <div class="mt-2">
+                                <button type="button" id="removeBtn" class="btn btn-warning" ><i class="bi bi-patch-minus-fill"></i></button>
+                            </div>
+                          </div> --}}
+                          <div class="col-md-3">
+                              <button type="button" id="addBtn" class="btn btn-primary rounded-pill">
+                                <i class="bi bi-plus-circle-dotted"> Tambah Makanan</i>
+                              </button>
+                          </div>
+                          <div class="col-md-9">
+                          </div>
                           <div class="col-md-6">
                             <div class="form-floating">
-                                <input type="text" class="form-control mb-3" id="floatingPassword" placeholder="Keterangan" name="keterangan" value="{{ old('keterangan') }}" onkeyup="this.value = this.value.toUpperCase()" required>
-                                <label for="floatingPassword">Keterangan</label>
-                                @error('keterangan')
+                                <input type="date" class="form-control mb-3" id="tanggal" placeholder="" name="tanggal" value="{{ old('tanggal') }}" onkeyup="this.value = this.value.toUpperCase()" required>
+                                <label for="tanggal">Tanggal</label>
+                                @error('tanggal')
                                     <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -60,43 +113,64 @@
 @endsection
 @section('javas')
 <script>
-    <button id="addItemBtn">Tambah</button>
-    document.getElementById('addItemBtn').addEventListener('click', function () {
-        var foodCategories = @json($foodCategories);
-        const container = document.getElementById('itemsContainer');
-        const newItem = document.createElement('div');
-        newItem.classList.add('item');
-
-        const selectLabel = document.createElement('label');
-        selectLabel.setAttribute('for', 'item');
-        selectLabel.textContent = 'Pilih Makanan:';
-        newItem.appendChild(selectLabel);
-
-        const select = document.createElement('select');
-        select.classList.add('item-select');
-        select.setAttribute('name', 'items[]');
-        select.setAttribute('multiple', 'multiple');
-        const option = document.createElement('option');
-        option.value = 'nilai-baru';
-        option.textContent = 'Nilai Baru';
-        select.appendChild(option);
-
-        newItem.appendChild(select);
-
-        const quantityLabel = document.createElement('label');
-        quantityLabel.setAttribute('for', 'quantity');
-        quantityLabel.textContent = 'Jumlah:';
-        newItem.appendChild(quantityLabel);
-
-        const quantityInput = document.createElement('input');
-        quantityInput.setAttribute('type', 'number');
-        quantityInput.classList.add('item-quantity');
-        quantityInput.setAttribute('name', 'quantity[]');
-        quantityInput.setAttribute('min', '1');
-        quantityInput.setAttribute('value', '1');
-        newItem.appendChild(quantityInput);
-
-        container.appendChild(newItem);
+    let counter = 1;
+    $('#addBtn').click(function (){
+        counter++;
+        let newInputan = `<div class="row g-3">
+                            <div class="col-md-3">
+                            <div class="form-floating">
+                                <select class="form-control @error('food') is-invalid @enderror" aria-label=".form-select-sm example" name="food[]" >
+                                    <option value="">- Pilih Salah Satu -</option>
+                                    @foreach ($foods as $food)
+                                    <option {{ (old('food')==$food->kode)?"selected":"" }} value="{{ $food->kode }}">{{ $food->kode }} - {{ $food->nama }}</option>
+                                    @endforeach
+                                </select>
+                                <label>Nama Makanan</label>
+                                @error('keterangan')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                          </div>
+                          <div class="col-md-2">
+                            <div class="form-floating">
+                                <input type="number" class="form-control mb-3"  placeholder="" name="qty[]" value="{{ old('qty') }}" onkeyup="this.value = this.value.toUpperCase()" required>
+                                <label>Qty</label>
+                                @error('qty')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                          </div>
+                          <div class="col-md-3">
+                            <div class="form-floating">
+                                <input disabled type="number" class="form-control mb-3"  placeholder="" name="harga[]" value="{{ old('harga') }}" onkeyup="this.value = this.value.toUpperCase()" required>
+                                <label>Harga</label>
+                                @error('harga')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                          </div>
+                          <div class="col-md-3">
+                            <div class="form-floating">
+                                <input disabled type="number" class="form-control mb-3"  placeholder="" name="total[]" value="{{ old('total') }}" onkeyup="this.value = this.value.toUpperCase()" required>
+                                <label>Total</label>
+                                @error('total')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                          </div>
+                          <div class="col-md-1">
+                            <div class="mt-2">
+                                <button type="button" class="btn btn-outline-danger removeBtn" ><i class="bi bi-dash-lg"></i></button>
+                            </div>
+                          </div>
+                        </div>`
+    $('#inputdata').append(newInputan);
     });
+
+    $(document).on('click', '.removeBtn', function() {
+    // $('.removeBtn').click(function (){
+        // console.log($(this).parent().parent().parent());
+        $(this).parent().parent().parent().remove();
+      });
 </script>
 @endsection

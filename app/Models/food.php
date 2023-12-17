@@ -13,14 +13,10 @@ class food extends Model
         'nama',
         'kelompok',
         'qty',
-        'qtyMinimum',
+        'safetyStock',
         'hargaBeli',
         'hargaJual',
-        'kebutuhan',
         'biayaPemesanan',
-        'waktu',
-        'EOQ',
-        'ROP',
-        'BiayaPenyimpanan',
+        'lifeTime',
     ];
 }

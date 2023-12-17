@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class frakturBeli extends Model
 {
     use HasFactory;
+    protected $fillable=[
+        'kodeTransaksi',
+        'kodeMakanan',
+        'kodeSupplier',
+        'qty',
+        'harga',
+        'total',
+        'tanggal',
+    ];
 }

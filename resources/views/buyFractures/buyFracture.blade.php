@@ -12,7 +12,7 @@
   </div><!-- End Page Title -->   
 @endsection
 @section('search')
-<form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" action="/">
+<form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" action="/buyFractures">
     <div class="input-group">
         <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
             aria-label="Search" aria-describedby="basic-addon2" name="search" value="{{ request('search') }}">
@@ -86,9 +86,9 @@
                                 @endif
                                 @endforeach
                             </td>
-                            <td>  @foreach ($suppliers as $suppliers)
-                                @if ($suppliers->kode == $buyFracture->kodeSupplier)
-                                    {{ $suppliers->kode - $suppliers->nama}}
+                            <td>  @foreach ($suppliers as $supplier)
+                                @if ($supplier->kode == $buyFracture->kodeSupplier)
+                                    {{ $supplier->kode.' - '.$supplier->nama}}
                                     @break
                                 @endif
                                 @endforeach

@@ -23,11 +23,8 @@ class FoodController extends Controller
                                         ->orWhere('nama','like','%'.request('search').'%')
                                         ->orWhere('kelompok','like','%'.request('search').'%')
                                         ->orWhere('qty','like','%'.request('search').'%')
-                                        ->orWhere('EOQ','like','%'.request('search').'%')
-                                        ->orWhere('ROP','like','%'.request('search').'%')
                                         ->orWhere('hargaBeli','like','%'.request('search').'%')
-                                        ->orWhere('hargaJual','like','%'.request('search').'%')
-                                        ->orWhere('biayaPenyimpanan','like','%'.request('search').'%');
+                                        ->orWhere('hargaJual','like','%'.request('search').'%');
             foreach($querytambahan1 as $querytambahan){
                 $querybantuan= (string)$querytambahan->kode;
                 $foods->orWhere('kode','like','%'.$querybantuan.'%');
@@ -57,12 +54,13 @@ class FoodController extends Controller
      */
     public function store(StorefoodRequest $request)
     {
+        dd($request);
         $validatedData = $request->validate([
             'kode' => 'required',
             'nama' => 'required',
             'kategori' => 'required',
             'qty' => 'required',
-            'qtyminimum' => 'required',
+            'safetyStock' => 'required',
             'hargaJual' => 'required',
             'hargaBeli' => 'required',
             'kebutuhan' => 'required',

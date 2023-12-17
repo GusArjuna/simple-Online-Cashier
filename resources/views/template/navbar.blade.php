@@ -109,6 +109,11 @@
         </a>
         <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
+            <a href="{{ url('/eoq') }}">
+              <i class="bi bi-circle"></i><span>EOQ Method</span>
+            </a>
+          </li>
+          <li>
             <a href="{{ url('/foods') }}">
               <i class="bi bi-circle"></i><span>Makanan</span>
             </a>
@@ -143,28 +148,29 @@
           <i class="bi bi-cart-plus-fill"></i>
           <span>Fraktur Beli</span>
         </a>
-      </li><!-- End Profile Page Nav -->
+      </li><!-- End  -->
 
       <li class="nav-item">
         <a class="nav-link collapsed" href="{{ url('/sellFractures') }}">
           <i class="bi bi-cart-dash-fill"></i>
           <span>Fraktur Jual</span>
         </a>
-      </li><!-- End F.A.Q Page Nav -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="{{ url('/sellReturns') }}">
-          <i class="ri-shopping-cart-fill"></i>
-          <span>Retur Jual</span>
-        </a>
-      </li><!-- End Contact Page Nav -->
+      </li><!-- End  -->
 
       <li class="nav-item">
         <a class="nav-link collapsed" href="{{ url('/buyReturns') }}">
           <i class="ri-shopping-cart-line"></i>
           <span>Retur Beli</span>
         </a>
-      </li><!-- End Register Page Nav -->
+      </li><!-- End  -->
+      
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{{ url('/sellReturns') }}">
+          <i class="ri-shopping-cart-fill"></i>
+          <span>Retur Jual</span>
+        </a>
+      </li><!-- End  -->
+
 
     </ul>
 
@@ -208,6 +214,7 @@
 
   <!-- Template Main JS File -->
   <script src="{{ url('js/main.js') }}"></script>
+  <script src="{{ url('js/jquery.js') }}"></script>
   @yield('javas')
 </body>
 

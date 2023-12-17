@@ -17,15 +17,11 @@ return new class extends Migration
             $table->string('nama');
             $table->string('kelompok');
             $table->integer('qty');
-            $table->integer('qtyMinimum');
+            $table->integer('safetyStock');
             $table->integer('hargaBeli');
             $table->integer('hargaJual');
-            $table->integer('kebutuhan');
             $table->integer('biayaPemesanan');
-            $table->integer('biayaPenyimpanan');
-            $table->integer('waktu');
-            $table->float('EOQ');
-            $table->float('ROP');
+            $table->integer('lifeTime');
             $table->timestamps();
         });
     }

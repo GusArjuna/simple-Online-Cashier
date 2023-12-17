@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('fraktur_belis', function (Blueprint $table) {
             $table->id();
+            $table->string('kodeTransaksi');
             $table->string('kodeMakanan');
             $table->string('kodeSupplier');
             $table->integer('qty');

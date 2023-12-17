@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EoqtableController;
 use App\Http\Controllers\FoodCategoryController;
 use App\Http\Controllers\FoodController;
 use App\Http\Controllers\FrakturBeliController;
@@ -105,4 +106,10 @@ Route::controller(FoodCategoryController::class)->group(function () {
     Route::get('/foodCategory/{foodCategory}/editdata', 'edit');
     Route::post('/foodCategory/printdel', 'printdelete');
     Route::patch('/foodCategory/{foodCategory}', 'update');
+});
+
+Route::controller(EoqtableController::class)->group(function () {
+    Route::get('/eoq', 'index');
+    Route::post('/eoq', 'store');
+    Route::post('/eoq/print', 'print');
 });

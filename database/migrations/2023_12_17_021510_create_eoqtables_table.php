@@ -11,15 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('fraktur_juals', function (Blueprint $table) {
+        Schema::create('eoqtables', function (Blueprint $table) {
             $table->id();
-            $table->string('kodeTransaksi');
-            $table->string('kodeMakanan');
-            $table->string('kodeMember');
-            $table->integer('qty');
-            $table->string('harga');
-            $table->string('total');
-            $table->date('tanggal');
+            $table->integer('kodeMakanan');
+            $table->integer('biayaPenyimpanan');
+            $table->float('EOQ');
+            $table->float('ROP');
             $table->timestamps();
         });
     }
@@ -29,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('fraktur_juals');
+        Schema::dropIfExists('eoqtables');
     }
 };
