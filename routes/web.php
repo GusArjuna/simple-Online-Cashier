@@ -23,10 +23,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('dashboard',["title"=>"Dashboard"]);
-});
-
 Route::controller(FoodController::class)->group(function () {
     Route::get('/foods', 'index');
     Route::get('/food/datain', 'create');
@@ -89,7 +85,6 @@ Route::controller(ReturBeliController::class)->group(function () {
     Route::post('/buyReturn/printdel', 'printdelete');
     Route::patch('/buyReturn/{buyReturn}', 'update');
 });
-Route::get('/coba', function(){return view('buyFractures/buyFracturePrint',["title"=>"printcoba"]);});
 
 Route::controller(ReturJualController::class)->group(function () {
     Route::get('/sellReturns', 'index');
@@ -108,9 +103,13 @@ Route::controller(FoodCategoryController::class)->group(function () {
     Route::post('/foodCategory/printdel', 'printdelete');
     Route::patch('/foodCategory/{foodCategory}', 'update');
 });
-
+Route::get('/', function () {
+    return view('dashboard',["title"=>"Dashboard"]);
+});
 Route::controller(EoqtableController::class)->group(function () {
+    Route::get('/', 'dashboard');
     Route::get('/eoq', 'index');
     Route::post('/eoq', 'store');
+    Route::post('/eoq/updates', 'print');
     Route::post('/eoq/print', 'print');
 });
