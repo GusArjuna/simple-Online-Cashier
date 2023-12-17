@@ -11,12 +11,13 @@ class food extends Model
     protected $fillable=[
         'kode',
         'nama',
-        'kelompok',
+        'foodCategory',
         'qty',
         'safetyStock',
         'hargaBeli',
         'hargaJual',
         'biayaPemesanan',
         'lifeTime',
+        'keterangan',
     ];
 }

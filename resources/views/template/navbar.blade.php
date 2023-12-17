@@ -38,7 +38,7 @@
     <div class="d-flex align-items-center justify-content-between">
       <a href="{{ url('/') }}" class="logo d-flex align-items-center">
         <img src="{{ url('img/logo.png') }}" alt="">
-        <span class="d-none d-lg-block">Kelontong Istimewa</span>
+        <span class="d-none d-lg-block">Toko Hikmah</span>
       </a>
       <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->

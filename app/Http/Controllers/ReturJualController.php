@@ -55,7 +55,13 @@ class ReturJualController extends Controller
      */
     public function create()
     {
-        //
+        $foods = food::all();
+        $members = member::all();
+        return view('sellReturns/sellReturnIn',[
+            "title"=>"Tambah Retur Jual",
+            "foods" => $foods,
+            "members" => $members,
+        ]);
     }
 
     /**

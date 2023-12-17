@@ -55,7 +55,7 @@
                       </div>
                       <div class="col-md-4">
                         <div class="form-floating">
-                            <input type="number" class="form-control mb-3" id="qty" placeholder="" name="qty" value="{{ old('qty') }}" onkeyup="this.value = this.value.toUpperCase()" required>
+                            <input type="number" min=1 class="form-control mb-3" id="qty" placeholder="" name="qty" value="{{ old('qty') }}" onkeyup="this.value = this.value.toUpperCase()" required>
                             <label for="qty">Qty</label>
                             @error('qty')
                                 <div class="alert alert-danger">{{ $message }}</div>
@@ -64,7 +64,7 @@
                       </div>
                       <div class="col-md-4">
                         <div class="form-floating">
-                            <input type="number" class="form-control mb-3" id="safetyStock" placeholder="" name="safetyStock" value="{{ old('safetyStock') }}" onkeyup="this.value = this.value.toUpperCase()" required>
+                            <input type="number" min=1 class="form-control mb-3" id="safetyStock" placeholder="" name="safetyStock" value="{{ old('safetyStock') }}" onkeyup="this.value = this.value.toUpperCase()" required>
                             <label for="safetyStock">Safety Stock</label>
                             @error('safetyStock')
                                 <div class="alert alert-danger">{{ $message }}</div>
@@ -73,7 +73,7 @@
                       </div>
                       <div class="col-md-6">
                         <div class="form-floating">
-                            <input type="number" class="form-control mb-3" id="hargaJual" placeholder="" name="hargaJual" value="{{ old('hargaJual') }}" onkeyup="this.value = this.value.toUpperCase()" required>
+                            <input type="number" min=1 class="form-control mb-3" id="hargaJual" placeholder="" name="hargaJual" value="{{ old('hargaJual') }}" onkeyup="this.value = this.value.toUpperCase()" required>
                             <label for="hargaJual">Harga Jual</label>
                             @error('hargaJual')
                                 <div class="alert alert-danger">{{ $message }}</div>
@@ -82,25 +82,16 @@
                       </div>
                       <div class="col-md-6">
                         <div class="form-floating">
-                            <input type="number" class="form-control mb-3" id="hargaBeli" placeholder="" name="hargaBeli" value="{{ old('hargaBeli') }}" onkeyup="this.value = this.value.toUpperCase()" required>
+                            <input type="number" min=1 class="form-control mb-3" id="hargaBeli" placeholder="" name="hargaBeli" value="{{ old('hargaBeli') }}" onkeyup="this.value = this.value.toUpperCase()" required>
                             <label for="hargaBeli">Harga Beli</label>
                             @error('hargaBeli')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>
-                      </div>
+                      </div>  
                       <div class="col-md-4">
                         <div class="form-floating">
-                            <input type="number" class="form-control mb-3" id="kebutuhan" placeholder="" name="kebutuhan" value="{{ old('kebutuhan') }}" onkeyup="this.value = this.value.toUpperCase()" required>
-                            <label for="kebutuhan">Kebutuhan</label>
-                            @error('kebutuhan')
-                                <div class="alert alert-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
-                      </div>
-                      <div class="col-md-4">
-                        <div class="form-floating">
-                            <input type="number" class="form-control mb-3" id="biayaPemesanan" placeholder="" name="biayaPemesanan" value="{{ old('biayaPemesanan') }}" onkeyup="this.value = this.value.toUpperCase()" required>
+                            <input type="number" min=1 class="form-control mb-3" id="biayaPemesanan" placeholder="" name="biayaPemesanan" value="{{ old('biayaPemesanan') }}" onkeyup="this.value = this.value.toUpperCase()" required>
                             <label for="biayaPemesanan">Biaya Pemesanan</label>
                             @error('biayaPemesanan')
                                 <div class="alert alert-danger">{{ $message }}</div>
@@ -109,14 +100,14 @@
                       </div>
                       <div class="col-md-4">
                         <div class="form-floating">
-                            <input type="number" class="form-control mb-3" id="waktu" placeholder="" name="waktu" value="{{ old('waktu') }}" onkeyup="this.value = this.value.toUpperCase()" required>
-                            <label for="waktu">Waktu</label>
-                            @error('waktu')
+                            <input type="number" min=1 class="form-control mb-3" id="lifeTime" placeholder="" name="lifeTime" value="{{ old('lifeTime') }}" onkeyup="this.value = this.value.toUpperCase()" required>
+                            <label for="lifeTime">life Time</label>
+                            @error('lifeTime')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>
                       </div>
-                      <div class="col-md-12">
+                      <div class="col-md-4">
                         <div class="form-floating">
                             <input type="text" class="form-control mb-3" id="keterangan" placeholder="" name="keterangan" value="{{ old('keterangan') }}" onkeyup="this.value = this.value.toUpperCase()" required>
                             <label for="keterangan">Keterangan</label>

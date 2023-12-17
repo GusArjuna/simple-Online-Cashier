@@ -89,6 +89,7 @@ Route::controller(ReturBeliController::class)->group(function () {
     Route::post('/buyReturn/printdel', 'printdelete');
     Route::patch('/buyReturn/{buyReturn}', 'update');
 });
+Route::get('/coba', function(){return view('buyFractures/buyFracturePrint',["title"=>"printcoba"]);});
 
 Route::controller(ReturJualController::class)->group(function () {
     Route::get('/sellReturns', 'index');

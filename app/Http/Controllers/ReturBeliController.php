@@ -55,7 +55,13 @@ class ReturBeliController extends Controller
      */
     public function create()
     {
-        //
+        $foods = food::all();
+        $suppliers = supplier::all();
+        return view('buyReturns/buyReturnIn',[
+            "title"=>"Tambah Retur Beli",
+            "foods" => $foods,
+            "suppliers" => $suppliers,
+        ]);
     }
 
     /**

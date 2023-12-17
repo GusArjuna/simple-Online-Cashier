@@ -28,7 +28,7 @@
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <a href="{{ url('/food/datain') }}" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i
             class="bi bi-plus"></i> Tambah Makanan</a>
-            <form action="/printdashboard" method="post">
+            <form action="/food/printdel" method="post">
                 @csrf
                 {{-- <button type="submit" value="true" name="generate" class="btn btn-primary">
                    <i class="bi bi-printer-fill"></i> Generate Report
@@ -44,7 +44,7 @@
         <div class="alert alert-success">{{ session('success') }}</div>
         @endif
         <div class="card-body">
-            {{-- {{ $fsns->links() }} --}}
+            {{ $foods->links() }}
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
@@ -78,10 +78,10 @@
                         <tr>
                             {{-- <td> <input type="checkbox" name="print{{ $food->id }}" id="print{{ $food->id }}" value="{{ $food->id }}"> </td> --}}
                             <td> {{ $loop->iteration }} </td>
-                            <td> {{ $food->kode - $food->nama }} </td>
+                            <td> {{ $food->kode.' - '.$food->nama }} </td>
                             <td> @foreach ($foodCategories as $foodCategory)
-                                @if ($foodCategory->kode == $food->kode)
-                                    {{ $foodCategory->nama }}
+                                @if ($foodCategory->kode == $food->foodCategory)
+                                    {{ $foodCategory->kode.' - '.$foodCategory->nama }}
                                     @break
                                 @endif
                                 @endforeach 

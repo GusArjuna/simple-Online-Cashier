@@ -1,119 +1,128 @@
 @extends('template.navbar')
 @section('pagetitle')
 <div class="pagetitle">
-    <h1>Dashboard</h1>
+    <h1>Food</h1>
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>
+        <li class="breadcrumb-item">Edit</li>
         <li class="breadcrumb-item active">Food</li>
       </ol>
     </nav>
   </div><!-- End Page Title -->   
 @endsection
-@section('search')
-<form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" action="/">
-    <div class="input-group">
-        <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-            aria-label="Search" aria-describedby="basic-addon2" name="search" value="{{ request('search') }}">
-        <div class="input-group-append">
-            <button class="btn btn-primary">
-                <i class="bi bi-search"></i>
-            </button>
-        </div>
-    </div>
-</form>    
-@endsection
 @section('bagan')
-    <!-- Page Heading -->
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <form action="/updatefsn" method="post">
-            @csrf
-        </form>
-            <form action="/printdashboard" method="post">
-                @csrf
-                <button type="submit" value="true" name="generate" class="btn btn-primary">
-                   <i class="bi bi-printer-fill"></i> Generate Report
-                </button>
-                <input type="hidden" name="search" value="{{ request('search') }}">
-    </div>
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Detail Perusahaan</h6>
+        <div class="card-header py-3 mb-3">
+            <h6 class="m-0 font-weight-bold text-primary">Data Makanan</h6>
         </div>
-        @if (session()->has('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-        @endif
         <div class="card-body">
-            {{-- {{ $fsns->links() }} --}}
-            <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>No</th>
-                            <th>Kode</th>
-                            <th>Nama</th>
-                            <th>Kelompok</th>
-                            <th>Qty</th>
-                            <th>Harga Beli</th>
-                            <th>Harga Jual</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tfoot>
-                        <tr>
-                            <th></th>
-                            <th>No</th>
-                            <th>Kode</th>
-                            <th>Nama</th>
-                            <th>Kelompok</th>
-                            <th>Qty</th>
-                            <th>Harga Beli</th>
-                            <th>Harga Jual</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </tfoot>
-                    <tbody>
-                        {{-- @foreach ($fsns as $fsn)
-                        <tr>
-                            <td> <input type="checkbox" name="print{{ $fsn->id }}" id="print{{ $fsn->id }}" value="{{ $fsn->id }}"> </td>
-                            <td> {{ $loop->iteration }} </td>
-                            <td> 
-                                @foreach ($kodematerials as $kodematerial)
-                                    @if ($kodematerial->kodeMaterial == $fsn->kodeMaterial)
-                                        {{ $kodematerial->kodeMaterial }}
-                                        @break
-                                    @endif
+            <form action="/food/{{ $food->id }}" method="post">
+                @method('PATCH')
+                @csrf
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input type="text" class="form-control mb-3" id="kode" placeholder="" name="kode" value="{{ old('kode',$food->kode) }}" onkeyup="this.value = this.value.toUpperCase()" required autofocus>
+                            <label for="kode">Kode</label>
+                            @error('kode')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-floating">
+                            <input type="text" class="form-control mb-3" id="nama" placeholder="" name="nama" value="{{ old('nama',$food->nama) }}" onkeyup="this.value = this.value.toUpperCase()" required>
+                            <label for="nama">Nama</label>
+                            @error('nama')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-floating">
+                            <select class="form-control @error('foodCategory') is-invalid @enderror" aria-label=".form-select-sm example" name="foodCategory" id="foodCategory">
+                                <option value="">- Pilih Salah Satu -</option>
+                                @foreach ($foodCategories as $foodCategory)
+                                <option {{ (old('foodCategory',$food->foodCategory)==$foodCategory->kode)?"selected":"" }} value="{{ $foodCategory->kode }}">{{ $foodCategory->kode }} - {{ $foodCategory->nama }}</option>
                                 @endforeach
-                             </td>
-                            <td> @foreach ($kodematerials as $kodematerial)
-                                @if ($kodematerial->kodeMaterial == $fsn->kodeMaterial)
-                                    {{ $kodematerial->namaMaterial }}
-                                    @break
-                                @endif
-                            @endforeach </td>
-                            <td> {{ $fsn->lokasi}} </td>
-                            <td> @foreach ($kodematerials as $kodematerial)
-                                @if ($kodematerial->kodeMaterial == $fsn->kodeMaterial)
-                                    {{ $kodematerial->satuan }}
-                                    @break
-                                @endif
-                            @endforeach </td>
-                            <td> @foreach ($kodematerials as $kodematerial)
-                                @if ($kodematerial->kodeMaterial == $fsn->kodeMaterial)
-                                    {{ $kodematerial->peruntukan }}
-                                    @break
-                                @endif
-                            @endforeach </td>
-                            <td> {{ $fsn->tor}} </td>
-                            <td> {{ $fsn->kategori}} </td>
-                        </tr>
-                        @endforeach --}}
-                    </tbody>
-                </table>
+                            </select>
+                            <label for="foodCategory">Kategori Makanan</label>
+                            @error('keterangan')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-floating">
+                            <input type="number" min=1 class="form-control mb-3" id="qty" placeholder="" name="qty" value="{{ old('qty',$food->qty) }}" onkeyup="this.value = this.value.toUpperCase()" required>
+                            <label for="qty">Qty</label>
+                            @error('qty')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-floating">
+                            <input type="number" min=1 class="form-control mb-3" id="safetyStock" placeholder="" name="safetyStock" value="{{ old('safetyStock',$food->safetyStock) }}" onkeyup="this.value = this.value.toUpperCase()" required>
+                            <label for="safetyStock">Safety Stock</label>
+                            @error('safetyStock')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-floating">
+                            <input type="number" min=1 class="form-control mb-3" id="hargaJual" placeholder="" name="hargaJual" value="{{ old('hargaJual',$food->hargaJual) }}" onkeyup="this.value = this.value.toUpperCase()" required>
+                            <label for="hargaJual">Harga Jual</label>
+                            @error('hargaJual')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-floating">
+                            <input type="number" min=1 class="form-control mb-3" id="hargaBeli" placeholder="" name="hargaBeli" value="{{ old('hargaBeli',$food->hargaBeli) }}" onkeyup="this.value = this.value.toUpperCase()" required>
+                            <label for="hargaBeli">Harga Beli</label>
+                            @error('hargaBeli')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                      </div>  
+                      <div class="col-md-4">
+                        <div class="form-floating">
+                            <input type="number" min=1 class="form-control mb-3" id="biayaPemesanan" placeholder="" name="biayaPemesanan" value="{{ old('biayaPemesanan',$food->biayaPemesanan) }}" onkeyup="this.value = this.value.toUpperCase()" required>
+                            <label for="biayaPemesanan">Biaya Pemesanan</label>
+                            @error('biayaPemesanan')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-floating">
+                            <input type="number" min=1 class="form-control mb-3" id="lifeTime" placeholder="" name="lifeTime" value="{{ old('lifeTime',$food->lifeTime) }}" onkeyup="this.value = this.value.toUpperCase()" required>
+                            <label for="lifeTime">life Time</label>
+                            @error('lifeTime')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-floating">
+                            <input type="text" class="form-control mb-3" id="keterangan" placeholder="" name="keterangan" value="{{ old('keterangan',$food->keterangan) }}" onkeyup="this.value = this.value.toUpperCase()" required>
+                            <label for="keterangan">Keterangan</label>
+                            @error('keterangan')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                      </div>
+                      <div class="text-center">
+                        <button type="submit" class="btn btn-success mb-3">Update</button>
+                        <button type="reset" class="btn btn-secondary mb-3">Reset</button>
+                      </div>
+                </div>
             </form>
-            </div>
         </div>
     </div>
 @endsection

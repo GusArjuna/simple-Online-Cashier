@@ -25,94 +25,109 @@
 </form>    
 @endsection
 @section('bagan')
-    <!-- Page Heading -->
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <form action="/updatefsn" method="post">
-            @csrf
-        </form>
-            <form action="/printdashboard" method="post">
-                @csrf
-                <button type="submit" value="true" name="generate" class="btn btn-primary">
-                    <i class="bi bi-printer-fill"></i>  Generate Report
-                </button>
-                <input type="hidden" name="search" value="{{ request('search') }}">
+<div class="offset-xl-2 col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12 padding">
+    <div class="card">
+    <div class="card-header p-4">
+    <a class="pt-2 d-inline-block" href="index.html" data-abc="true">BBBootstrap.com</a>
+    <div class="float-right"> <h3 class="mb-0">Invoice #BBB10234</h3>
+    Date: 12 Jun,2019</div>
     </div>
-    <!-- DataTales Example -->
-    <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Detail Perusahaan</h6>
-        </div>
-        @if (session()->has('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-        @endif
-        <div class="card-body">
-            {{-- {{ $fsns->links() }} --}}
-            <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>No</th>
-                            <th>Kode Makanan</th>
-                            <th>Nama Makanan</th>
-                            <th>Stok</th>
-                            <th>Nilai EOQ</th>
-                            <th>Biaya Penyimpanan</th>
-                            <th>Nilai ROP</th>
-                        </tr>
-                    </thead>
-                    <tfoot>
-                        <tr>
-                            <th></th>
-                            <th>No</th>
-                            <th>Kode Makanan</th>
-                            <th>Nama Makanan</th>
-                            <th>Stok</th>
-                            <th>Nilai EOQ</th>
-                            <th>Biaya Penyimpanan</th>
-                            <th>Nilai ROP</th>
-                        </tr>
-                    </tfoot>
-                    <tbody>
-                        {{-- @foreach ($fsns as $fsn)
-                        <tr>
-                            <td> <input type="checkbox" name="print{{ $fsn->id }}" id="print{{ $fsn->id }}" value="{{ $fsn->id }}"> </td>
-                            <td> {{ $loop->iteration }} </td>
-                            <td> 
-                                @foreach ($kodematerials as $kodematerial)
-                                    @if ($kodematerial->kodeMaterial == $fsn->kodeMaterial)
-                                        {{ $kodematerial->kodeMaterial }}
-                                        @break
-                                    @endif
-                                @endforeach
-                             </td>
-                            <td> @foreach ($kodematerials as $kodematerial)
-                                @if ($kodematerial->kodeMaterial == $fsn->kodeMaterial)
-                                    {{ $kodematerial->namaMaterial }}
-                                    @break
-                                @endif
-                            @endforeach </td>
-                            <td> {{ $fsn->lokasi}} </td>
-                            <td> @foreach ($kodematerials as $kodematerial)
-                                @if ($kodematerial->kodeMaterial == $fsn->kodeMaterial)
-                                    {{ $kodematerial->satuan }}
-                                    @break
-                                @endif
-                            @endforeach </td>
-                            <td> @foreach ($kodematerials as $kodematerial)
-                                @if ($kodematerial->kodeMaterial == $fsn->kodeMaterial)
-                                    {{ $kodematerial->peruntukan }}
-                                    @break
-                                @endif
-                            @endforeach </td>
-                            <td> {{ $fsn->tor}} </td>
-                            <td> {{ $fsn->kategori}} </td>
-                        </tr>
-                        @endforeach --}}
-                    </tbody>
-                </table>
-            </form>
-            </div>
-        </div>
+    <div class="card-body">
+    <div class="row mb-4">
+    <div class="col-sm-6">
+    <h5 class="mb-3">From:</h5>
+    <h3 class="text-dark mb-1">Tejinder Singh</h3>
+    <div>29, Singla Street</div>
+    <div>Sikeston,New Delhi 110034</div>
+    <div>Email: contact@bbbootstrap.com</div>
+    <div>Phone: +91 9897 989 989</div>
+    </div>
+    <div class="col-sm-6 ">
+    <h5 class="mb-3">To:</h5>
+    <h3 class="text-dark mb-1">Akshay Singh</h3>
+    <div>478, Nai Sadak</div>
+    <div>Chandni chowk, New delhi, 110006</div>
+    <div>Email: info@tikon.com</div>
+    <div>Phone: +91 9895 398 009</div>
+    </div>
+    </div>
+    <div class="table-responsive-sm">
+    <table class="table table-striped">
+    <thead>
+    <tr>
+    <th class="center">#</th>
+    <th>Item</th>
+    <th>Description</th>
+    <th class="right">Price</th>
+    <th class="center">Qty</th>
+    <th class="right">Total</th>
+    </tr>
+    </thead>
+    <tbody>
+        @for ($i = 1; $i < 10; $i++)
+            @if ($i%2==1)
+            <tr class="table table-primary">
+                <td class="center">4</td>
+                <td class="left">Google Pixel</td>
+                <td class="left">Google prime with Amazon prime membership</td>
+                <td class="right">$500</td>
+                <td class="center">10</td>
+                <td class="right">$5000</td> 
+            </tr>
+            @else
+            <tr>
+                <td class="center">4</td>
+                <td class="left">Google Pixel</td>
+                <td class="left">Google prime with Amazon prime membership</td>
+                <td class="right">$500</td>
+                <td class="center">10</td>
+                <td class="right">$5000</td> 
+            </tr>
+            @endif
+        @endfor
+    </tbody>
+    </table>
+    </div>
+    <div class="row">
+    <div class="col-lg-4 col-sm-5">
+    </div>
+    <div class="col-lg-4 col-sm-5 ml-auto">
+    <table class="table table-clear">
+    <tbody>
+    <tr>
+    <td class="left">
+    <strong class="text-dark">Subtotal</strong>
+    </td>
+    <td class="right">$28,809,00</td>
+    </tr>
+    <tr>
+    <td class="left">
+    <strong class="text-dark">Discount (20%)</strong>
+    </td>
+    <td class="right">$5,761,00</td>
+    </tr>
+    <tr>
+    <td class="left">
+    <strong class="text-dark">VAT (10%)</strong>
+    </td>
+    <td class="right">$2,304,00</td>
+    </tr>
+    <tr>
+    <td class="left">
+    <strong class="text-dark">Total</strong>
+     </td>
+    <td class="right">
+    <strong class="text-dark">$20,744,00</strong>
+    </td>
+    </tr>
+    </tbody>
+    </table>
+    </div>
+    </div>
+    </div>
+    <div class="card-footer bg-white">
+    <p class="mb-0">BBBootstrap.com, Sounth Block, New delhi, 110034</p>
+    </div>
+    </div>
     </div>
 @endsection

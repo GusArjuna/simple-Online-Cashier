@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\eoqtable;
 use App\Http\Requests\StoreeoqtableRequest;
 use App\Http\Requests\UpdateeoqtableRequest;
+use App\Models\food;
 
 class EoqtableController extends Controller
 {
@@ -13,7 +14,30 @@ class EoqtableController extends Controller
      */
     public function index()
     {
-        //
+        $foods = food::all();
+        $eoqTables = eoqtable::query();
+        if(request('search')){                                     
+            $querytambahan2=food::where('kode','like','%'.request('search').'%')
+                                        ->orWhere('nama','like','%'.request('search').'%')->get()
+                                        ->orWhere('qty','like','%'.request('search').'%')->get()
+                                        ->orWhere('safetyStoc','like','%'.request('search').'%')->get()
+                                        ->orWhere('lifeTime','like','%'.request('search').'%')->get();
+                                        
+            $eoqTables->where('kodeMakanan','like','%'.request('search').'%')
+                                        ->orWhere('EOQ','like','%'.request('search').'%')
+                                        ->orWhere('ROP','like','%'.request('search').'%')
+                                        ->orWhere('biayaPenyimpanan','like','%'.request('search').'%');
+            
+            foreach($querytambahan2 as $querytambahan){
+                $querybantuan= (string)$querytambahan->kode;
+                $eoqTables->orWhere('kodeMakanan','like','%'.$querybantuan.'%');
+            }
+        }
+        return view('EOQMethod/EOQMethod',[
+            "title"=>"EOQMethod",
+            "eoqTables" => $eoqTables->paginate(15),
+            "foods" => $foods,
+            ]);
     }
 
     /**

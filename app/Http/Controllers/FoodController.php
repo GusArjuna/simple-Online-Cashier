@@ -6,6 +6,7 @@ use App\Models\food;
 use App\Http\Requests\StorefoodRequest;
 use App\Http\Requests\UpdatefoodRequest;
 use App\Models\foodCategory;
+use Illuminate\Http\Request;
 
 class FoodController extends Controller
 {
@@ -54,23 +55,21 @@ class FoodController extends Controller
      */
     public function store(StorefoodRequest $request)
     {
-        dd($request);
         $validatedData = $request->validate([
             'kode' => 'required',
             'nama' => 'required',
-            'kategori' => 'required',
+            'foodCategory' => 'required',
             'qty' => 'required',
             'safetyStock' => 'required',
             'hargaJual' => 'required',
             'hargaBeli' => 'required',
-            'kebutuhan' => 'required',
             'biayaPemesanan' => 'required',
-            'waktu' => 'required',
+            'lifeTime' => 'required',
             'keterangan' => 'required',
         ]);
 
         
-        foodCategory::create($validatedData);
+        food::create($validatedData);
         return redirect('/foods')->with('success','Data Ditambahkan');
     }
 
@@ -87,7 +86,12 @@ class FoodController extends Controller
      */
     public function edit(food $food)
     {
-        //
+        $foodCategories = foodCategory::all();
+        return view('foods/foodEdit',[
+            "title"=>"Daftar Makanan",
+            "foodCategories" => $foodCategories,
+            "food" => $food,
+        ]);
     }
 
     /**
@@ -95,7 +99,21 @@ class FoodController extends Controller
      */
     public function update(UpdatefoodRequest $request, food $food)
     {
-        //
+        $validatedData = $request->validate([
+            'kode' => 'required',
+            'nama' => 'required',
+            'foodCategory' => 'required',
+            'qty' => 'required',
+            'safetyStock' => 'required',
+            'hargaJual' => 'required',
+            'hargaBeli' => 'required',
+            'biayaPemesanan' => 'required',
+            'lifeTime' => 'required',
+            'keterangan' => 'required',
+        ]);
+        food::where('id',$food->id)
+                    ->update($validatedData);
+        return redirect('/foods')->with('success','Data diupdate');
     }
 
     /**
@@ -104,5 +122,13 @@ class FoodController extends Controller
     public function destroy(food $food)
     {
         //
+    }
+
+    public function printdelete(Request $request)
+    {
+        if($request->delete){
+            food::destroy($request->delete);
+            return redirect('/foods')->with('success','Data Dihapus');
+        }
     }
 }

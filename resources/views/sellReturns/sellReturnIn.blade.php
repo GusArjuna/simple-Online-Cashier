@@ -5,114 +5,181 @@
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>
-        <li class="breadcrumb-item">Laporan</li>
-        <li class="breadcrumb-item active">Retur Jual</li>
+        <li class="breadcrumb-item">Tambah</li>
+        <li class="breadcrumb-item active">Fraktur Beli</li>
       </ol>
     </nav>
   </div><!-- End Page Title -->   
 @endsection
-@section('search')
-<form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" action="/">
-    <div class="input-group">
-        <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-            aria-label="Search" aria-describedby="basic-addon2" name="search" value="{{ request('search') }}">
-        <div class="input-group-append">
-            <button class="btn btn-primary">
-                <i class="bi bi-search"></i>
-            </button>
-        </div>
-    </div>
-</form>    
-@endsection
 @section('bagan')
-    <!-- Page Heading -->
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <form action="/updatefsn" method="post">
-            @csrf
-        </form>
-            <form action="/printdashboard" method="post">
-                @csrf
-                <button type="submit" value="true" name="generate" class="btn btn-primary">
-                    <i class="bi bi-printer-fill"></i>   Generate Report
-                </button>
-                <input type="hidden" name="search" value="{{ request('search') }}">
-    </div>
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Detail Perusahaan</h6>
+        <div class="card-header py-3 mb-3">
+            <h6 class="m-0 font-weight-bold text-primary">Tambah Fracture Beli</h6>
         </div>
-        @if (session()->has('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-        @endif
         <div class="card-body">
-            {{-- {{ $fsns->links() }} --}}
             <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>No</th>
-                            <th>Kode Makanan</th>
-                            <th>Nama Makanan</th>
-                            <th>Stok</th>
-                            <th>Nilai EOQ</th>
-                            <th>Biaya Penyimpanan</th>
-                            <th>Nilai ROP</th>
-                        </tr>
-                    </thead>
-                    <tfoot>
-                        <tr>
-                            <th></th>
-                            <th>No</th>
-                            <th>Kode Makanan</th>
-                            <th>Nama Makanan</th>
-                            <th>Stok</th>
-                            <th>Nilai EOQ</th>
-                            <th>Biaya Penyimpanan</th>
-                            <th>Nilai ROP</th>
-                        </tr>
-                    </tfoot>
-                    <tbody>
-                        {{-- @foreach ($fsns as $fsn)
-                        <tr>
-                            <td> <input type="checkbox" name="print{{ $fsn->id }}" id="print{{ $fsn->id }}" value="{{ $fsn->id }}"> </td>
-                            <td> {{ $loop->iteration }} </td>
-                            <td> 
-                                @foreach ($kodematerials as $kodematerial)
-                                    @if ($kodematerial->kodeMaterial == $fsn->kodeMaterial)
-                                        {{ $kodematerial->kodeMaterial }}
-                                        @break
-                                    @endif
-                                @endforeach
-                             </td>
-                            <td> @foreach ($kodematerials as $kodematerial)
-                                @if ($kodematerial->kodeMaterial == $fsn->kodeMaterial)
-                                    {{ $kodematerial->namaMaterial }}
-                                    @break
-                                @endif
-                            @endforeach </td>
-                            <td> {{ $fsn->lokasi}} </td>
-                            <td> @foreach ($kodematerials as $kodematerial)
-                                @if ($kodematerial->kodeMaterial == $fsn->kodeMaterial)
-                                    {{ $kodematerial->satuan }}
-                                    @break
-                                @endif
-                            @endforeach </td>
-                            <td> @foreach ($kodematerials as $kodematerial)
-                                @if ($kodematerial->kodeMaterial == $fsn->kodeMaterial)
-                                    {{ $kodematerial->peruntukan }}
-                                    @break
-                                @endif
-                            @endforeach </td>
-                            <td> {{ $fsn->tor}} </td>
-                            <td> {{ $fsn->kategori}} </td>
-                        </tr>
-                        @endforeach --}}
-                    </tbody>
-                </table>
-            </form>
+                <form action="/buyFracture/datain" method="post">
+                    @csrf
+                    <div class="row g-3">
+                        <div class="col-md-12">
+                            <div class="form-floating">
+                                <select class="form-control @error('member') is-invalid @enderror" aria-label=".form-select-sm example" name="member" id="member">
+                                    <option value="">- Pilih Salah Satu -</option>
+                                    @foreach ($members as $member)
+                                    <option {{ (old('member')==$member->kode)?"selected":"" }} value="{{ $member->kode }}">{{ $member->kode }} - {{ $member->nama }}</option>
+                                    @endforeach
+                                </select>
+                                <label for="member">Nama Member</label>
+                                @error('keterangan')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                          </div>
+                          <div id="inputdata">
+
+                          </div>
+                          {{-- <div class="col-md-3">
+                            <div class="form-floating">
+                                <select class="form-control @error('food') is-invalid @enderror" aria-label=".form-select-sm example" name="food" id="food">
+                                    <option value="">- Pilih Salah Satu -</option>
+                                    @foreach ($foods as $food)
+                                    <option {{ (old('food')==$food->kode)?"selected":"" }} value="{{ $food->kode }}">{{ $food->kode }} - {{ $food->nama }}</option>
+                                    @endforeach
+                                </select>
+                                <label for="food">Nama Makanan</label>
+                                @error('keterangan')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                          </div>
+                          <div class="col-md-3">
+                            <div class="form-floating">
+                                <input type="number" class="form-control mb-3" id="qty" placeholder="" name="qty" value="{{ old('qty') }}" onkeyup="this.value = this.value.toUpperCase()" required>
+                                <label for="qty">Qty</label>
+                                @error('qty')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                          </div>
+                          <div class="col-md-3">
+                            <div class="form-floating">
+                                <input type="number" class="form-control mb-3" id="harga" placeholder="" name="harga" value="{{ old('harga') }}" onkeyup="this.value = this.value.toUpperCase()" required>
+                                <label for="harga">Harga</label>
+                                @error('harga')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                          </div>
+                          <div class="col-md-2">
+                            <div class="form-floating">
+                                <input disabled type="number" class="form-control mb-3" id="total" placeholder="" name="total" value="{{ old('total') }}" onkeyup="this.value = this.value.toUpperCase()" required>
+                                <label for="total">Total</label>
+                                @error('total')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                          </div>
+                          <div class="col-md-1">
+                            <div class="mt-2">
+                                <button type="button" id="removeBtn" class="btn btn-warning" ><i class="bi bi-patch-minus-fill"></i></button>
+                            </div>
+                          </div> --}}
+                          <div class="col-md-3">
+                              <button type="button" id="addBtn" class="btn btn-primary rounded-pill">
+                                <i class="bi bi-plus-circle-dotted"> Tambah Makanan</i>
+                              </button>
+                          </div>
+                          <div class="col-md-9">
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="date" class="form-control mb-3" id="tanggal" placeholder="" name="tanggal" value="{{ old('tanggal') }}" onkeyup="this.value = this.value.toUpperCase()" required>
+                                <label for="tanggal">Tanggal</label>
+                                @error('tanggal')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control mb-3" id="keterangan" placeholder="" name="keterangan" value="{{ old('keterangan') }}" onkeyup="this.value = this.value.toUpperCase()" required>
+                                <label for="keterangan">Keterangan</label>
+                                @error('keterangan')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                          </div>
+                          <div class="text-center">
+                            <button type="submit" class="btn btn-primary mb-3">Submit</button>
+                            <button type="reset" class="btn btn-secondary mb-3">Reset</button>
+                          </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
+@endsection
+@section('javas')
+<script>
+    let counter = 1;
+    $('#addBtn').click(function (){
+        counter++;
+        let newInputan = `<div class="row g-3">
+                            <div class="col-md-3">
+                            <div class="form-floating">
+                                <select class="form-control @error('food') is-invalid @enderror" aria-label=".form-select-sm example" name="food[]" >
+                                    <option value="">- Pilih Salah Satu -</option>
+                                    @foreach ($foods as $food)
+                                    <option {{ (old('food')==$food->kode)?"selected":"" }} value="{{ $food->kode }}">{{ $food->kode }} - {{ $food->nama }}</option>
+                                    @endforeach
+                                </select>
+                                <label>Nama Makanan</label>
+                                @error('keterangan')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                          </div>
+                          <div class="col-md-2">
+                            <div class="form-floating">
+                                <input type="number" class="form-control mb-3"  placeholder="" name="qty[]" value="{{ old('qty') }}" onkeyup="this.value = this.value.toUpperCase()" required>
+                                <label>Qty</label>
+                                @error('qty')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                          </div>
+                          <div class="col-md-3">
+                            <div class="form-floating">
+                                <input disabled type="number" class="form-control mb-3"  placeholder="" name="harga[]" value="{{ old('harga') }}" onkeyup="this.value = this.value.toUpperCase()" required>
+                                <label>Harga</label>
+                                @error('harga')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                          </div>
+                          <div class="col-md-3">
+                            <div class="form-floating">
+                                <input disabled type="number" class="form-control mb-3"  placeholder="" name="total[]" value="{{ old('total') }}" onkeyup="this.value = this.value.toUpperCase()" required>
+                                <label>Total</label>
+                                @error('total')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                          </div>
+                          <div class="col-md-1">
+                            <div class="mt-2">
+                                <button type="button" class="btn btn-outline-danger removeBtn" ><i class="bi bi-dash-lg"></i></button>
+                            </div>
+                          </div>
+                        </div>`
+    $('#inputdata').append(newInputan);
+    });
+
+    $(document).on('click', '.removeBtn', function() {
+    // $('.removeBtn').click(function (){
+        // console.log($(this).parent().parent().parent());
+        $(this).parent().parent().parent().remove();
+      });
+</script>
 @endsection

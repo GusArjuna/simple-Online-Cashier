@@ -54,7 +54,13 @@ class FrakturJualController extends Controller
      */
     public function create()
     {
-        //
+        $foods = food::all();
+        $members = member::all();
+        return view('sellFractures/sellFractureIn',[
+            "title"=>"Tambah Fraktur Jual",
+            "foods" => $foods,
+            "members" => $members,
+        ]);
     }
 
     /**

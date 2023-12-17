@@ -15,13 +15,14 @@ return new class extends Migration
             $table->id();
             $table->string('kode');
             $table->string('nama');
-            $table->string('kelompok');
+            $table->string('foodCategory');
             $table->integer('qty');
             $table->integer('safetyStock');
             $table->integer('hargaBeli');
             $table->integer('hargaJual');
             $table->integer('biayaPemesanan');
             $table->integer('lifeTime');
+            $table->string('keterangan');
             $table->timestamps();
         });
     }
