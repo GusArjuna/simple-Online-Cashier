@@ -44,7 +44,11 @@
         <div class="alert alert-success">{{ session('success') }}</div>
         @endif
         <div class="card-body">
-            {{ $foodCategories->links() }}
+            <div class="mt-3">
+    
+                {{ $foodCategories->links() }}
+            </div>
+           
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>

@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('eoqtables', function (Blueprint $table) {
             $table->id();
-            $table->integer('kodeMakanan');
-            $table->integer('biayaPenyimpanan');
+            $table->string('kodeMakanan');
+            $table->float('biayaPenyimpanan');
             $table->float('EOQ');
             $table->float('ROP');
             $table->timestamps();

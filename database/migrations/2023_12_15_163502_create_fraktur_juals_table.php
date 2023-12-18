@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('qty');
             $table->string('harga');
             $table->string('total');
+            $table->date('tanggal');
             $table->timestamps();
         });
     }

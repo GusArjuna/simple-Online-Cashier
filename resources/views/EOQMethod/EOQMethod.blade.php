@@ -66,7 +66,11 @@
         <div class="alert alert-success">{{ session('success') }}</div>
         @endif
         <div class="card-body">
-            {{ $eoqTables->links() }}
+            <div class="mt-3">
+    
+                {{ $eoqTables->links() }}
+            </div>
+            
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
@@ -100,18 +104,41 @@
                         <tr>
                             <td> <input type="checkbox" name="print{{ $eoqTable->id }}" id="print{{ $eoqTable->id }}" value="{{ $eoqTable->id }}"> </td>
                             <td> {{ $loop->iteration }} </td>
-                            @foreach ($foods as $food)
-                                @if ($food->kode == $eoqTable->kodeMakanan)
-                                    <td>{{ $food->kode.' - '.$food->nama }}</td>
-                                    <td>{{ $food->qty}}</td>
-                                    <td>{{ $food->safetyStock}}</td>
-                                    <td>{{ $food->lifeTime}}</td>
-                                @endif
-                                @break
-                            @endforeach 
+                            <td>
+                                @foreach ($foods as $food)
+                                    @if ($food->kode == $eoqTable->kodeMakanan)
+                                        {{ $food->kode.' - '.$food->nama }}
+                                        @break
+                                    @endif
+                                @endforeach 
+                            </td>
+                            <td>
+                                @foreach ($foods as $food)
+                                    @if ($food->kode == $eoqTable->kodeMakanan)
+                                        {{ $food->qty }}
+                                        @break
+                                    @endif
+                                @endforeach 
+                            </td>
+                            <td>
+                                @foreach ($foods as $food)
+                                    @if ($food->kode == $eoqTable->kodeMakanan)
+                                        {{ $food->safetyStock }}
+                                        @break
+                                    @endif
+                                @endforeach 
+                            </td>
+                            <td>
+                                @foreach ($foods as $food)
+                                    @if ($food->kode == $eoqTable->kodeMakanan)
+                                        {{ $food->lifeTime }}
+                                        @break
+                                    @endif
+                                @endforeach 
+                            </td>                        
                             <td> {{ $eoqTable->biayaPenyimpanan }} </td>
-                            <td> {{ $eoqTable->rop}}</td>
-                            <td> {{ $eoqTable->eoq}}</td>
+                            <td> {{ $eoqTable->ROP}}</td>
+                            <td> {{ $eoqTable->EOQ}}</td>
                         </tr>
                         @endforeach
                     </tbody>

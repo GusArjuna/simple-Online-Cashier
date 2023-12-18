@@ -57,7 +57,7 @@ class FrakturJualController extends Controller
     {
         $nomorRegis = nomorRegisFrakturJual::latest()->first()->id??false;
         if($nomorRegis){
-            $nomorRegis = 'BFR'.$nomorRegis;
+            $nomorRegis = 'BFR'.($nomorRegis+1);
         }else{
             $nomorRegis = 'BFR1';
         }
@@ -76,6 +76,13 @@ class FrakturJualController extends Controller
      */
     public function store(StorefrakturJualRequest $request)
     {
+        for ($i=0; $i < count($request->qty); $i++) {
+            $cek = food::query()->where('kode','like','%'.$request->food[$i].'%')->get()->first();
+            if ($cek->qty<$request->qty[$i]) {
+                return redirect('/sellFractures/datain')->with('error','Quantity melebihi stock');
+            }
+        }
+        
         $validatedData = $request->validate([
             'nomorRegis' => 'required',
             'member' => 'required',
@@ -90,8 +97,12 @@ class FrakturJualController extends Controller
            
             $food = food::query()->where('kode','like','%'.$validatedData['food'][$i].'%')->get()->first();
             $newQty = $food->qty - intval($validatedData['qty'][$i]);
+            $penjualan = $food->penjualan+intval($validatedData['qty'][$i]);
             food::where('id',$food->id)
-                    ->update(['qty'=> $newQty]);
+                    ->update([
+                        'qty'=> $newQty,
+                        'penjualan' => $penjualan,
+                    ]);
            
             frakturJual::create([
                 'kodeTransaksi' => $validatedData['nomorRegis'],
@@ -99,6 +110,7 @@ class FrakturJualController extends Controller
                 'qty' => $validatedData['qty'][$i],
                 'harga' => $validatedData['harga'][$i],
                 'total' => $validatedData['total'][$i],
+                'tanggal' => $validatedData['tanggal'],
                 // ... dan seterusnya sesuai dengan field yang ada pada model Item
             ]);
         }

@@ -112,7 +112,10 @@
                             <td> {{ $foods->kode.' - '. $foods->nama}} </td>
                             <td> {{ $foods->hargaJual }} </td>
                             <td> {{ $foods->penjualan}} </td>
-                            <td> {{ $foods->penjualan*$foods->hargaJual}}</td>
+                            @php
+                                $revenue = $foods->penjualan*$foods->hargaJual;
+                            @endphp
+                            <td> {{ $revenue}}</td>
                         </tr>
                         @endforeach
                         <tr>

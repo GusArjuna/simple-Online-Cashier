@@ -44,7 +44,10 @@
         <div class="alert alert-success">{{ session('success') }}</div>
         @endif
         <div class="card-body">
-            {{ $foods->links() }}
+            <div class="mt-3">
+    
+                {{ $foods->links() }}
+            </div>
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
@@ -93,9 +96,10 @@
                             <td> {{ $food->hargaJual}} </td>
                             <td> {{ $food->keterangan}} </td>
                             <td> 
+                                {{-- <a href="/printqr/{{ $food->kode }}" class="btn btn-secondary btn-sm"><i class="bi bi-grid-3x3-gap-fill"></i></a> --}}
                                 <div class="visible-print text-center">
                                     {!! QrCode::size(50)->generate($food->kode); !!}
-                                </div>
+                                  </div>
                             </td>
                             <td>  <a href="/food/{{ $food->id }}/editdata" class="btn btn-warning btn-sm">
                                 <i class="bi bi-pencil-fill"></i>

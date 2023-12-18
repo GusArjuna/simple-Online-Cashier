@@ -97,7 +97,7 @@
                           </div>
                           <div class="col-md-2">
                             <div class="form-floating">
-                                <input type="number" class="form-control mb-3 qty"  placeholder="" name="qty[]" value="{{ old('qty') }}" onkeyup="this.value = this.value.toUpperCase()" required>
+                                <input type="number"  min=1 class="form-control mb-3 qty"  placeholder="" name="qty[]" value="{{ old('qty') }}" onkeyup="this.value = this.value.toUpperCase()" required>
                                 <label>Qty</label>
                                 @error('qty')
                                     <div class="alert alert-danger">{{ $message }}</div>

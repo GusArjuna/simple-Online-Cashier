@@ -14,5 +14,6 @@ class frakturJual extends Model
         'qty',
         'harga',
         'total',
+        'tanggal',
     ];
 }

@@ -6,8 +6,13 @@ use App\Models\eoqtable;
 use App\Http\Requests\StoreeoqtableRequest;
 use App\Http\Requests\UpdateeoqtableRequest;
 use App\Models\food;
+use App\Models\frakturJual;
 use App\Models\member;
+use App\Models\nomorRegisFrakturBeli;
 use App\Models\supplier;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Http\Request;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class EoqtableController extends Controller
 {
@@ -59,6 +64,57 @@ class EoqtableController extends Controller
     /**
      * Show the form for creating a new resource.
      */
+    public function updateEoq(Request $request)
+    {
+        eoqtable::truncate();
+        $year = $request->tahun;
+        $foods = food::all();
+        $totalDays = 0;
+        for ($month = 1; $month <= 12; $month++) {
+            $totalDays += cal_days_in_month(CAL_GREGORIAN, $month, $year-1);
+        }
+        foreach ($foods as $food) {
+            $hodingCost = round(($food->hargaJual*$food->qty)/((100/100)+(20/100)),1);
+            $demand = frakturJual::where('kodeMakanan','like','%'.$food->kode.'%')
+                            ->whereYear('tanggal',$year-1)
+                            ->sum('qty');
+            $eoq = round(sqrt(2*$food->biayaPemesanan*$demand/$hodingCost),1);
+            $rop = round($food->safetyStock*($demand/$totalDays)*$food->lifeTime,1);
+            // dd("holding Cost",$hodingCost,
+            // "Kode Makanan",$food->kode,
+            // "Demand",$demand,
+            // "EOQ",$eoq,
+            // "SafetyStoc",$food->safetyStock, 
+            // "Life Time",$food->lifeTime,
+            // "ROP",$rop);
+
+            eoqtable::create([
+                'kodeMakanan' => $food->kode,
+                'BiayaPenyimpanan' => $hodingCost,
+                'EOQ' => $eoq,
+                'ROP' => $rop,
+                // ... dan seterusnya sesuai dengan field yang ada pada model Item
+            ]);
+        }
+        return redirect('/eoq')->with('success','Data Di Update');
+    }
+    
+    public function printQR($request)
+    {
+        // // $directory = '../public/qrcodes/';
+        // // if (!is_dir($directory)) {
+        // //     mkdir($directory, 0777, true);
+        // // }
+        // // QrCode::format('png');
+        // // $qrs=QrCode::generate($request, '../public/qrcodes/',$request,'.png');
+        // // dd($qrs);
+        // $pdf = Pdf::loadView('printQR', [
+        //     "data" => $request,
+        //     "qrs" => $qrs,
+        // ])->setPaper('f4', 'landscape');
+        // return $pdf->download('Print_QR.pdf');
+    }
+
     public function create()
     {
         //
@@ -69,7 +125,7 @@ class EoqtableController extends Controller
      */
     public function store(StoreeoqtableRequest $request)
     {
-        //
+       
     }
 
     /**

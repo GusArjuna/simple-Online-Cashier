@@ -105,12 +105,10 @@ Route::controller(FoodCategoryController::class)->group(function () {
     Route::post('/foodCategory/printdel', 'printdelete');
     Route::patch('/foodCategory/{foodCategory}', 'update');
 });
-Route::get('/', function () {
-    return view('dashboard',["title"=>"Dashboard"]);
-});
 Route::controller(EoqtableController::class)->group(function () {
     Route::get('/', 'dashboard');
     Route::get('/eoq', 'index');
-    Route::post('/eoq', 'store');
+    Route::post('/eoq', 'updateEoq');
+    Route::get('/printqr/{catch}', 'printQR');
     Route::post('/eoq/print', 'print');
 });

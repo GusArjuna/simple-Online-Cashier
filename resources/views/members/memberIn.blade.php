@@ -41,7 +41,7 @@
                     </div>
                     <div class="col-md-4">
                         <div class="form-floating">
-                            <input type="number" class="form-control mb-3" id="noTelp" placeholder="" name="noTelp" value="{{ old('noTelp') }}" onkeyup="this.value = this.value.toUpperCase()" required>
+                            <input type="number" min=1 class="form-control mb-3" id="noTelp" placeholder="" name="noTelp" value="{{ old('noTelp') }}" onkeyup="this.value = this.value.toUpperCase()" required>
                             <label for="noTelp">No. Telp</label>
                             @error('noTelp')
                                 <div class="alert alert-danger">{{ $message }}</div>
