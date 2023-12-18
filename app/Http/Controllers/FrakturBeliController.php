@@ -105,6 +105,20 @@ class FrakturBeliController extends Controller
         return redirect('/buyFractures')->with('success','Data diupdate');
     }
 
+    public function print($request)
+    {
+        $nomorRegis=nomorRegisFrakturBeli::all()->find($request);
+        $buyFractures = frakturBeli::query()->where('kodeTransaksi','like','%'.$nomorRegis->kode.'%')->get();
+        $supplier = supplier::query()->where('kode','like','%'.$nomorRegis->kodeSupplier.'%')->get()->first();
+        $foods=food::all();
+        $pdf = Pdf::loadView('buyFractures.buyFracturePrintPdf', [
+            "foods" => $foods,
+            "supplier" => $supplier,
+            "buyFractures" => $buyFractures,
+            "nomorRegis" => $nomorRegis,
+        ])->setPaper('f4', 'landscape')->setOptions(['defaultFont' => 'sans-serif']);
+        return $pdf->download('Sell Facture.pdf');
+    }
     /**
      * Display the specified resource.
      */

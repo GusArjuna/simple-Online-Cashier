@@ -12,11 +12,11 @@
   </div><!-- End Page Title -->   
 @endsection
 @section('bagan')
-<form action="/buyFracture/printdel" method="post">
+<form action="/buyFracture/{{ $nomorRegis->id }}/print" method="get">
     @csrf
-    <button type="submit" value="true" name="generate" class="btn btn-primary">
+    <a href="/sellFracture/{{ $nomorRegis->id }}/print" class="btn btn-primary">
         <i class="bi bi-printer-fill"></i>  Generate Report
-    </button>
+    </a>
 </form>
 <div class="offset-xl-2 col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12 padding">
     <div class="card">

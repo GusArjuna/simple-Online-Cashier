@@ -31,9 +31,9 @@
             class="bi bi-plus"></i> Tambah Fraktur Jual</a>
             <form action="/sellFracture/printdel" method="post">
                 @csrf
-                <button type="submit" value="true" name="generate" class="btn btn-primary">
+                {{-- <button type="submit" value="true" name="generate" class="btn btn-primary">
                     <i class="bi bi-printer-fill"></i>  Generate Report
-                </button>
+                </button> --}}
                 <input type="hidden" name="search" value="{{ request('search') }}">
     </div>
     <!-- DataTales Example -->
@@ -54,7 +54,7 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th></th>
+                            {{-- <th></th> --}}
                             <th>No</th>
                             <th>Nomor Fracture</th>
                             <th>Kode - Nama Member</th>
@@ -65,7 +65,7 @@
                     </thead>
                     <tfoot>
                         <tr>
-                            <th></th>
+                            {{-- <th></th> --}}
                             <th>No</th>
                             <th>Nomor Fracture</th>
                             <th>Kode - Nama Member</th>
@@ -77,7 +77,7 @@
                     <tbody>
                         @foreach ($sellFracturenumbers as $sellFracturenumber)
                         <tr>
-                            <td> <input type="checkbox" name="print{{ $sellFracturenumber->id }}" id="print{{ $sellFracturenumber->id }}" value="{{ $sellFracturenumber->id }}"> </td>
+                            {{-- <td> <input type="checkbox" name="print{{ $sellFracturenumber->id }}" id="print{{ $sellFracturenumber->id }}" value="{{ $sellFracturenumber->id }}"> </td> --}}
                             <td> {{ $loop->iteration }} </td>
                             <td> {{ $sellFracturenumber->kode }} </td>
                             <td>  @foreach ($members as $member)

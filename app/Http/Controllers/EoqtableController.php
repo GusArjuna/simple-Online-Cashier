@@ -115,6 +115,71 @@ class EoqtableController extends Controller
         // return $pdf->download('Print_QR.pdf');
     }
 
+    public function print(Request $request)
+    {
+        $foods = food::all();
+            $cek=false;
+            $lastId = eoqtable::orderBy('id', 'desc')->first()->id; // Mendapatkan ID terakhir
+            $data = [];
+            for ($i = 1; $i <= $lastId; $i++) {
+                $inputName = 'print' . $i;
+                if($request->$inputName){
+                    $cek=true;
+                    break;
+                }elseif(!$request->$inputName){
+                    $cek=false;
+                }
+            }
+            if($cek){
+                for ($i = 1; $i <= $lastId; $i++) {
+                    $inputName = 'print' . $i; // Membuat nama input berdasarkan iterasi
+    
+                    if ($request->has($inputName)) {
+                        // Melakukan pencarian berdasarkan nilai input dari request pada model barangKeluar
+                        $foundMaterial = eoqtable::find($request->$inputName);
+    
+                        if ($foundMaterial) {
+                            $data[] = $foundMaterial; // Menambahkan model yang cocok ke dalam array $data
+                        }
+                    }
+                }
+                $pdf = Pdf::loadView('stuffoutf.pdf', [
+                    "foods" => $foods,
+                    "eoqtables" => $data
+                ])->setPaper('f4', 'landscape');
+                return $pdf->download('Laporan_Barang_Keluar.pdf');
+            }else{
+                $eoqtables = eoqtable::query();
+                if($request->search){
+                    $querytambahans=food::where('peruntukan','like','%'.request('search').'%')
+                                        ->orWhere('namaMaterial','like','%'.request('search').'%')
+                                        ->orWhere('satuan','like','%'.request('search').'%')->get();
+                                        
+                    $eoqtables->where('kodeMaterial','like','%'.request('search').'%')
+                                                ->orWhere('jumlah','like','%'.request('search').'%')
+                                                ->orWhere('kondisi','like','%'.request('search').'%')
+                                                ->orWhere('keterangan','like','%'.request('search').'%')
+                                                ->orWhere('keperluan','like','%'.request('search').'%')
+                                                ->orWhere('keterangan','like','%'.request('search').'%')
+                                                ->orWhere('peminjam','like','%'.request('search').'%')
+                                                ->orWhere('divisi','like','%'.request('search').'%')
+                                                ->orWhere('tanggalKeluar','like','%'.request('search').'%');
+                    
+                    foreach($querytambahans as $querytambahan){
+                        $querybantuan= (string)$querytambahan->kodeMaterial;
+                        $eoqtables->orWhere('kodeMaterial','like','%'.$querybantuan.'%');
+                    }
+                }
+                $foods = $foods->toArray();
+                $eoqtables = $eoqtables->get()->toArray();
+                $pdf = Pdf::loadView('EOQMethod.EOQMethodPrint', [
+                    "foods" => $foods,
+                    "eoqtables" => $eoqtables
+                ])->setPaper('f4', 'landscape');
+                return $pdf->download('EOQMethod.pdf');
+            } 
+    }
+
     public function create()
     {
         //

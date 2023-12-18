@@ -31,9 +31,9 @@
             class="bi bi-plus"></i> Tambah Retur Jual</a>
             <form action="/sellReturn/printdel" method="post">
                 @csrf
-                <button type="submit" value="true" name="generate" class="btn btn-primary">
+                {{-- <button type="submit" value="true" name="generate" class="btn btn-primary">
                     <i class="bi bi-printer-fill"></i>  Generate Report
-                </button>
+                </button> --}}
                 <input type="hidden" name="search" value="{{ request('search') }}">
     </div>
     <!-- DataTales Example -->
@@ -50,7 +50,7 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th></th>
+                            {{-- <th></th> --}}
                             <th>No</th>
                             <th>Kode - Nama Makanan</th>
                             <th>Kode - Nama member</th>
@@ -64,7 +64,7 @@
                     </thead>
                     <tfoot>
                         <tr>
-                            <th></th>
+                            {{-- <th></th> --}}
                             <th>No</th>
                             <th>Kode - Nama Makanan</th>
                             <th>Kode - Nama member</th>
@@ -79,7 +79,7 @@
                     <tbody>
                         @foreach ($sellReturns as $sellReturn)
                         <tr>
-                            <td> <input type="checkbox" name="print{{ $sellReturn->id }}" id="print{{ $sellReturn->id }}" value="{{ $sellReturn->id }}"> </td>
+                            {{-- <td> <input type="checkbox" name="print{{ $sellReturn->id }}" id="print{{ $sellReturn->id }}" value="{{ $sellReturn->id }}"> </td> --}}
                             <td> {{ $loop->iteration }} </td>
                             <td>  @foreach ($foods as $food)
                                 @if ($food->kode == $sellReturn->kodeMakanan)

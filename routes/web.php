@@ -23,6 +23,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/login',function(){return view('login');})->name('login');
+Route::get('/regist',function(){
+    return view('register');
+});
+
 Route::controller(FoodController::class)->group(function () {
     Route::get('/foods', 'index');
     Route::get('/food/datain', 'create');
@@ -75,6 +80,7 @@ Route::controller(FrakturJualController::class)->group(function () {
     Route::post('/sellFracture/datain', 'store');
     Route::get('/sellFracture/{sellFracture}/editdata', 'edit');
     Route::get('/sellFracture/{sellFracture}/show', 'show');
+    Route::get('/sellFracture/{sellFracture}/print', 'print');
     Route::post('/sellFracture/printdel', 'printdelete');
     Route::patch('/sellFracture/{sellFracture}', 'update');
 });

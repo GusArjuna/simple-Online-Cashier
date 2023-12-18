@@ -8,6 +8,7 @@ use App\Http\Requests\UpdatefrakturJualRequest;
 use App\Models\food;
 use App\Models\member;
 use App\Models\nomorRegisFrakturJual;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class FrakturJualController extends Controller
 {
@@ -127,6 +128,21 @@ class FrakturJualController extends Controller
     /**
      * Display the specified resource.
      */
+    public function print($request)
+    {
+        $nomorRegis=nomorRegisFrakturJual::all()->find($request);
+        $sellFractures = frakturJual::query()->where('kodeTransaksi','like','%'.$nomorRegis->kode.'%')->get();
+        $member = member::query()->where('kode','like','%'.$nomorRegis->kodeMember.'%')->get()->first();
+        $foods=food::all();
+        $pdf = Pdf::loadView('sellFractures.sellFracturePrintPdf', [
+            "foods" => $foods,
+            "member" => $member,
+            "sellFractures" => $sellFractures,
+            "nomorRegis" => $nomorRegis,
+        ])->setPaper('f4', 'landscape')->setOptions(['defaultFont' => 'sans-serif']);
+        return $pdf->download('Sell Facture.pdf');
+    }
+
     public function show($request)
     {
         $nomorRegis=nomorRegisFrakturJual::all()->find($request);
