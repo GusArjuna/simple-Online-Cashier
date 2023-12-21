@@ -6,7 +6,9 @@ use App\Http\Controllers\FoodController;
 use App\Http\Controllers\FrakturBeliController;
 use App\Http\Controllers\FrakturJualController;
 use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MemberController;
+use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\ReturBeliController;
 use App\Http\Controllers\ReturJualController;
 use App\Http\Controllers\SupplierController;
@@ -23,98 +25,102 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/login',function(){return view('login');})->name('login');
-Route::get('/regist',function(){
-    return view('register');
+Route::controller(LoginController::class)->group(function () {
+    Route::get('/login', 'index')->middleware('guest')->name('login');
+    Route::post('/login', 'authenticate')->middleware('guest');
+    Route::post('/logout', 'logout');
 });
-
+Route::controller(RegisterController::class)->group(function () {
+    Route::get('/regist', 'index')->middleware('guest');
+    Route::post('/regist', 'store')->middleware('guest');
+});
 Route::controller(FoodController::class)->group(function () {
-    Route::get('/foods', 'index');
-    Route::get('/food/datain', 'create');
-    Route::post('/food/datain', 'store');
-    Route::get('/food/{food}/editdata', 'edit');
-    Route::post('/food/printdel', 'printdelete');
-    Route::patch('/food/{food}', 'update');
+    Route::get('/foods', 'index')->middleware('auth');
+    Route::get('/food/datain', 'create')->middleware('auth');
+    Route::post('/food/datain', 'store')->middleware('auth');
+    Route::get('/food/{food}/editdata', 'edit')->middleware('auth');
+    Route::post('/food/printdel', 'printdelete')->middleware('auth');
+    Route::patch('/food/{food}', 'update')->middleware('auth');
 });
 
 Route::controller(MemberController::class)->group(function () {
-    Route::get('/members', 'index');
-    Route::get('/member/datain', 'create');
-    Route::post('/member/datain', 'store');
-    Route::get('/member/{member}/editdata', 'edit');
-    Route::post('/member/printdel', 'printdelete');
-    Route::patch('/member/{member}', 'update');
+    Route::get('/members', 'index')->middleware('auth');
+    Route::get('/member/datain', 'create')->middleware('auth');
+    Route::post('/member/datain', 'store')->middleware('auth');
+    Route::get('/member/{member}/editdata', 'edit')->middleware('auth');
+    Route::post('/member/printdel', 'printdelete')->middleware('auth');
+    Route::patch('/member/{member}', 'update')->middleware('auth');
 });
 
 Route::controller(InventoryController::class)->group(function () {
-    Route::get('/inventories', 'index');
-    Route::get('/inventory/datain', 'create');
-    Route::post('/inventory/datain', 'store');
-    Route::get('/inventory/{inventory}/editdata', 'edit');
-    Route::post('/inventory/printdel', 'printdelete');
-    Route::patch('/inventory/{inventory}', 'update');
+    Route::get('/inventories', 'index')->middleware('auth');
+    Route::get('/inventory/datain', 'create')->middleware('auth');
+    Route::post('/inventory/datain', 'store')->middleware('auth');
+    Route::get('/inventory/{inventory}/editdata', 'edit')->middleware('auth');
+    Route::post('/inventory/printdel', 'printdelete')->middleware('auth');
+    Route::patch('/inventory/{inventory}', 'update')->middleware('auth');
 });
 
 Route::controller(SupplierController::class)->group(function () {
-    Route::get('/suppliers', 'index');
-    Route::get('/supplier/datain', 'create');
-    Route::post('/supplier/datain', 'store');
-    Route::get('/supplier/{supplier}/editdata', 'edit');
-    Route::post('/supplier/printdel', 'printdelete');
-    Route::patch('/supplier/{supplier}', 'update');
+    Route::get('/suppliers', 'index')->middleware('auth');
+    Route::get('/supplier/datain', 'create')->middleware('auth');
+    Route::post('/supplier/datain', 'store')->middleware('auth');
+    Route::get('/supplier/{supplier}/editdata', 'edit')->middleware('auth');
+    Route::post('/supplier/printdel', 'printdelete')->middleware('auth');
+    Route::patch('/supplier/{supplier}', 'update')->middleware('auth');
 });
 
 Route::controller(FrakturBeliController::class)->group(function () {
-    Route::get('/buyFractures', 'index');
-    Route::get('/buyFracture/datain', 'create');
-    Route::post('/buyFracture/datain', 'store');
-    Route::get('/buyFracture/{buyFracture}/editdata', 'edit');
-    Route::get('/buyFracture/{buyFracture}/show', 'show');
-    Route::post('/buyFracture/printdel', 'printdelete');
-    Route::patch('/buyFracture/{buyFracture}', 'update');
+    Route::get('/buyFractures', 'index')->middleware('auth');
+    Route::get('/buyFracture/datain', 'create')->middleware('auth');
+    Route::post('/buyFracture/datain', 'store')->middleware('auth');
+    Route::get('/buyFracture/{buyFracture}/editdata', 'edit')->middleware('auth');
+    Route::get('/buyFracture/{buyFracture}/show', 'show')->middleware('auth');
+    Route::post('/buyFracture/printdel', 'printdelete')->middleware('auth');
+    Route::patch('/buyFracture/{buyFracture}', 'update')->middleware('auth');
 });
 
 Route::controller(FrakturJualController::class)->group(function () {
-    Route::get('/sellFractures', 'index');
-    Route::get('/sellFracture/datain', 'create');
-    Route::post('/sellFracture/datain', 'store');
-    Route::get('/sellFracture/{sellFracture}/editdata', 'edit');
-    Route::get('/sellFracture/{sellFracture}/show', 'show');
-    Route::get('/sellFracture/{sellFracture}/print', 'print');
-    Route::post('/sellFracture/printdel', 'printdelete');
-    Route::patch('/sellFracture/{sellFracture}', 'update');
+    Route::get('/sellFractures', 'index')->middleware('auth');
+    Route::get('/sellFracture/datain', 'create')->middleware('auth');
+    Route::post('/sellFracture/datain', 'store')->middleware('auth');
+    Route::get('/sellFracture/{sellFracture}/editdata', 'edit')->middleware('auth');
+    Route::get('/sellFracture/{sellFracture}/show', 'show')->middleware('auth');
+    Route::get('/sellFracture/{sellFracture}/print', 'print')->middleware('auth');
+    Route::post('/sellFracture/printdel', 'printdelete')->middleware('auth');
+    Route::patch('/sellFracture/{sellFracture}', 'update')->middleware('auth');
 });
 
 Route::controller(ReturBeliController::class)->group(function () {
-    Route::get('/buyReturns', 'index');
-    Route::get('/buyReturn/datain', 'create');
-    Route::post('/buyReturn/datain', 'store');
-    Route::get('/buyReturn/{buyReturn}/editdata', 'edit');
-    Route::post('/buyReturn/printdel', 'printdelete');
-    Route::patch('/buyReturn/{buyReturn}', 'update');
+    Route::get('/buyReturns', 'index')->middleware('auth');
+    Route::get('/buyReturn/datain', 'create')->middleware('auth');
+    Route::post('/buyReturn/datain', 'store')->middleware('auth');
+    Route::get('/buyReturn/{buyReturn}/editdata', 'edit')->middleware('auth');
+    Route::post('/buyReturn/printdel', 'printdelete')->middleware('auth');
+    Route::patch('/buyReturn/{buyReturn}', 'update')->middleware('auth');
 });
 
 Route::controller(ReturJualController::class)->group(function () {
-    Route::get('/sellReturns', 'index');
-    Route::get('/sellReturn/datain', 'create');
-    Route::post('/sellReturn/datain', 'store');
-    Route::get('/sellReturn/{sellReturn}/editdata', 'edit');
-    Route::post('/sellReturn/printdel', 'printdelete');
-    Route::patch('/sellReturn/{sellReturn}', 'update');
+    Route::get('/sellReturns', 'index')->middleware('auth');
+    Route::get('/sellReturn/datain', 'create')->middleware('auth');
+    Route::post('/sellReturn/datain', 'store')->middleware('auth');
+    Route::get('/sellReturn/{sellReturn}/editdata', 'edit')->middleware('auth');
+    Route::post('/sellReturn/printdel', 'printdelete')->middleware('auth');
+    Route::patch('/sellReturn/{sellReturn}', 'update')->middleware('auth');
 });
 
 Route::controller(FoodCategoryController::class)->group(function () {
-    Route::get('/foodCategories', 'index');
-    Route::get('/foodCategory/datain', 'create');
-    Route::post('/foodCategory/datain', 'store');
-    Route::get('/foodCategory/{foodCategory}/editdata', 'edit');
-    Route::post('/foodCategory/printdel', 'printdelete');
-    Route::patch('/foodCategory/{foodCategory}', 'update');
+    Route::get('/foodCategories', 'index')->middleware('auth');
+    Route::get('/foodCategory/datain', 'create')->middleware('auth');
+    Route::post('/foodCategory/datain', 'store')->middleware('auth');
+    Route::get('/foodCategory/{foodCategory}/editdata', 'edit')->middleware('auth');
+    Route::post('/foodCategory/printdel', 'printdelete')->middleware('auth');
+    Route::patch('/foodCategory/{foodCategory}', 'update')->middleware('auth');
 });
 Route::controller(EoqtableController::class)->group(function () {
-    Route::get('/', 'dashboard');
-    Route::get('/eoq', 'index');
-    Route::post('/eoq', 'updateEoq');
-    Route::get('/printqr/{catch}', 'printQR');
-    Route::post('/eoq/print', 'print');
+    Route::get('/', 'dashboard')->middleware('auth');
+    Route::get('/eoq', 'index')->middleware('auth');
+    Route::post('/eoq', 'updateEoq')->middleware('auth');
+    Route::get('/printqr/{catch}', 'printQR')->middleware('auth');
+    Route::post('/eoq/print', 'print')->middleware('auth');
 });

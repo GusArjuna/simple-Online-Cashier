@@ -54,19 +54,19 @@
                     <h5 class="card-title text-center pb-0 fs-4">Create an Account</h5>
                     <p class="text-center small">Enter your personal details to create account</p>
                   </div>
-
-                  <form class="row g-3 needs-validation" action="/regist" method="post">
+                  
+                  <form class="row g-3 needs-validation" action="{{ url('/regist') }}" method="post">
                     @csrf
                     <div class="col-12">
                       <div class="form-floating">
-                        <input type="text" class="form-control mb-3" id="name" placeholder="" name="name" value="{{ old('name') }}" onkeyup="this.value = this.value.toUpperCase()" required>
+                        <input type="text" class="form-control mb-3" id="name" placeholder="" name="name" value="{{ old('name') }}" autofocus  required>
                         <label for="name">Username</label>
                       </div>
                     </div>
 
                     <div class="col-12">
                       <div class="form-floating">
-                        <input type="password" class="form-control mb-3" id="password" placeholder="" name="password" value="{{ old('password') }}" onkeyup="this.value = this.value.toUpperCase()" required>
+                        <input type="password" class="form-control mb-3" id="password" placeholder="" name="password" value="{{ old('password') }}"  required>
                         <label for="password">Password</label>
                       </div>
                     </div>

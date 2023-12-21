@@ -41,11 +41,20 @@
             <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
 
               <div class="d-flex justify-content-center py-4">
-                <a href="index.html" class="logo d-flex align-items-center w-auto">
-                  <span class="d-none d-lg-block">Toko Hikmah</span>
-                </a>
+              <span class="d-none d-lg-block">Toko Hikmah</span>
               </div><!-- End Logo -->
-
+              @if (session()->has('Success'))
+              <script>
+                  let sessionData = @json(session('Success'));
+                  alert(sessionData);
+              </script>
+              @endif
+              @if (session()->has('Error'))
+              <script> 
+                  let sessionData = @json(session('Error'));
+                  alert(sessionData);
+              </script>
+              @endif
               <div class="card mb-3">
 
                 <div class="card-body">
@@ -55,18 +64,18 @@
                     <p class="text-center small">Enter your username & password to login</p>
                   </div>
 
-                  <form class="row g-3 needs-validation" novalidate>
-
+                  <form class="row g-3 needs-validation" action="{{ url('/login') }}" method="POST">
+                    @csrf
                     <div class="col-12">
                       <div class="form-floating">
-                        <input type="text" class="form-control mb-3" id="name" placeholder="" name="name" value="{{ old('name') }}" onkeyup="this.value = this.value.toUpperCase()" required>
+                        <input type="text" class="form-control mb-3" id="name" placeholder="" name="name" value="{{ old('name') }}" autofocus  required>
                         <label for="name">Username</label>
                       </div>
                     </div>
 
                     <div class="col-12">
                       <div class="form-floating">
-                        <input type="password" class="form-control mb-3" id="password" placeholder="" name="password" value="{{ old('password') }}" onkeyup="this.value = this.value.toUpperCase()" required>
+                        <input type="password" class="form-control mb-3" id="password" placeholder="" name="password" value="{{ old('password') }}"  required>
                         <label for="password">Password</label>
                       </div>
                     </div>

@@ -74,12 +74,17 @@ class EoqtableController extends Controller
             $totalDays += cal_days_in_month(CAL_GREGORIAN, $month, $year-1);
         }
         foreach ($foods as $food) {
-            $hodingCost = round(($food->hargaJual*$food->qty)/((100/100)+(20/100)),1);
+            $hodingCost = ceil(($food->hargaJual*$food->qty)/((100/100)+(20/100)),1);
             $demand = frakturJual::where('kodeMakanan','like','%'.$food->kode.'%')
                             ->whereYear('tanggal',$year-1)
                             ->sum('qty');
-            $eoq = round(sqrt(2*$food->biayaPemesanan*$demand/$hodingCost),1);
-            $rop = round($food->safetyStock*($demand/$totalDays)*$food->lifeTime,1);
+            if ($hodingCost>0) {
+                $eoq = round(sqrt(2*$food->biayaPemesanan*$demand/$hodingCost),1);
+                $rop = round($food->safetyStock*($demand/$totalDays)*$food->lifeTime,1);
+            }else{
+                $eoq = 0;
+                $rop = round($food->safetyStock*($demand/$totalDays)*$food->lifeTime,1);
+            }
             // dd("holding Cost",$hodingCost,
             // "Kode Makanan",$food->kode,
             // "Demand",$demand,
