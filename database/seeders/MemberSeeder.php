@@ -14,6 +14,7 @@ class MemberSeeder extends Seeder
     public function run(): void
     {
         $data = [
+            ['NOMBR','No Member','0','0','ACTIVE','0'],
             ['MBR01','PAK ROSYID','08767676','JLJL','ACTIVE','BAHAN POKOK'],
             ['MBR02','PAK ARJUNA','08767676','JLJL','ACTIVE','BAHAN POKOK'],
             ['MBR03','PAK DOVAN','08767676','JLJL','ACTIVE','BAHAN POKOK'],

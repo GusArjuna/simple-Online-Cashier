@@ -34,6 +34,7 @@ Route::controller(RegisterController::class)->group(function () {
     Route::get('/regist', 'index')->middleware('guest');
     Route::post('/regist', 'store')->middleware('guest');
 });
+
 Route::controller(FoodController::class)->group(function () {
     Route::get('/foods', 'index')->middleware('auth');
     Route::get('/food/datain', 'create')->middleware('auth');
@@ -76,6 +77,7 @@ Route::controller(FrakturBeliController::class)->group(function () {
     Route::post('/buyFracture/datain', 'store')->middleware('auth');
     Route::get('/buyFracture/{buyFracture}/editdata', 'edit')->middleware('auth');
     Route::get('/buyFracture/{buyFracture}/show', 'show')->middleware('auth');
+    Route::get('/buyFracture/{buyFracture}/print', 'print')->middleware('auth');
     Route::post('/buyFracture/printdel', 'printdelete')->middleware('auth');
     Route::patch('/buyFracture/{buyFracture}', 'update')->middleware('auth');
 });
