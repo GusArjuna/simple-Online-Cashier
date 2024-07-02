@@ -117,7 +117,7 @@ class FrakturBeliController extends Controller
             "buyFractures" => $buyFractures,
             "nomorRegis" => $nomorRegis,
         ])->setPaper('f4', 'landscape')->setOptions(['defaultFont' => 'sans-serif']);
-        return $pdf->download('Sell Facture.pdf');
+        return $pdf->download('Buy Facture.pdf');
     }
     /**
      * Display the specified resource.

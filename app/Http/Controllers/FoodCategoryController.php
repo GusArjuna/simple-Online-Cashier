@@ -42,7 +42,7 @@ class FoodCategoryController extends Controller
     public function store(StorefoodCategoryRequest $request)
     {
         $validatedData = $request->validate([
-            'kode' => 'required',
+            'kode' => ['required','unique:food_categories'],
             'nama' => 'required',
             'keterangan' => 'required',
         ]);

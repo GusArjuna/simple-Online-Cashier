@@ -74,7 +74,7 @@ class EoqtableController extends Controller
             $totalDays += cal_days_in_month(CAL_GREGORIAN, $month, $year-1);
         }
         foreach ($foods as $food) {
-            $hodingCost = ceil(($food->hargaJual*$food->qty)/((100/100)+(20/100)),1);
+            $hodingCost = ceil(($food->hargaJual*$food->qty)/((100/100)+(20/100)));
             $demand = frakturJual::where('kodeMakanan','like','%'.$food->kode.'%')
                             ->whereYear('tanggal',$year-1)
                             ->sum('qty');

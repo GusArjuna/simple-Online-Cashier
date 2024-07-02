@@ -12,7 +12,7 @@
   </div><!-- End Page Title -->   
 @endsection
 @section('bagan')
-<form action="/buyFracture/{{ $nomorRegis->id }}/print" method="get">
+<form action="/sellFracture/{{ $nomorRegis->id }}/print" method="get">
     @csrf
     <a href="/sellFracture/{{ $nomorRegis->id }}/print" class="btn btn-primary">
         <i class="bi bi-printer-fill"></i>  Generate Report

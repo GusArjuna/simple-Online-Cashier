@@ -22,7 +22,7 @@ class FoodController extends Controller
                             ->orWhere('nama','like','%'.request('search').'%')->get();                                    
             $foods->where('kode','like','%'.request('search').'%')
                                         ->orWhere('nama','like','%'.request('search').'%')
-                                        ->orWhere('kelompok','like','%'.request('search').'%')
+                                        ->orWhere('foodCategory','like','%'.request('search').'%')
                                         ->orWhere('qty','like','%'.request('search').'%')
                                         ->orWhere('hargaBeli','like','%'.request('search').'%')
                                         ->orWhere('hargaJual','like','%'.request('search').'%');
@@ -56,7 +56,7 @@ class FoodController extends Controller
     public function store(StorefoodRequest $request)
     {
         $validatedData = $request->validate([
-            'kode' => 'required',
+            'kode' => ['required','unique:food'],
             'nama' => 'required',
             'foodCategory' => 'required',
             'qty' => 'required',
