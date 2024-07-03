@@ -11,7 +11,9 @@ use App\Models\member;
 use App\Models\nomorRegisFrakturBeli;
 use App\Models\supplier;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class EoqtableController extends Controller
@@ -37,6 +39,14 @@ class EoqtableController extends Controller
     {
         $foods = food::all();
         $eoqTables = eoqtable::query();
+        $selectedDate = Session::get('selected_date');
+    
+        if ($selectedDate) {
+            $selectedDate = Carbon::parse($selectedDate);
+            $day = $selectedDate->day;
+            $periode = $selectedDate->format('Y-m') . '-' . ($day <= 15 ? '1' : '16');
+            $eoqTables->where('periode', $periode);
+        }
         if(request('search')){                                     
             $querytambahan2=food::where('kode','like','%'.request('search').'%')
                                         ->orWhere('nama','like','%'.request('search').'%')->get()
@@ -58,49 +68,109 @@ class EoqtableController extends Controller
             "title"=>"EOQMethod",
             "eoqTables" => $eoqTables->paginate(15),
             "foods" => $foods,
+            "selectedDate" => Session::get('selected_date'),
             ]);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function updateEoq(Request $request)
-    {
-        eoqtable::truncate();
-        $year = $request->tahun;
-        $foods = food::all();
-        $totalDays = 0;
-        for ($month = 1; $month <= 12; $month++) {
-            $totalDays += cal_days_in_month(CAL_GREGORIAN, $month, $year-1);
-        }
-        foreach ($foods as $food) {
-            $hodingCost = ceil(($food->hargaJual*$food->qty)/((100/100)+(20/100)));
-            $demand = frakturJual::where('kodeMakanan','like','%'.$food->kode.'%')
-                            ->whereYear('tanggal',$year-1)
-                            ->sum('qty');
-            if ($hodingCost>0) {
-                $eoq = round(sqrt(2*$food->biayaPemesanan*$demand/$hodingCost),1);
-                $rop = round($food->safetyStock*($demand/$totalDays)*$food->lifeTime,1);
-            }else{
-                $eoq = 0;
-                $rop = round($food->safetyStock*($demand/$totalDays)*$food->lifeTime,1);
-            }
-            // dd("holding Cost",$hodingCost,
-            // "Kode Makanan",$food->kode,
-            // "Demand",$demand,
-            // "EOQ",$eoq,
-            // "SafetyStoc",$food->safetyStock, 
-            // "Life Time",$food->lifeTime,
-            // "ROP",$rop);
 
-            eoqtable::create([
-                'kodeMakanan' => $food->kode,
-                'BiayaPenyimpanan' => $hodingCost,
-                'EOQ' => $eoq,
-                'ROP' => $rop,
-                // ... dan seterusnya sesuai dengan field yang ada pada model Item
-            ]);
+    /*
+    Riwayat Codingan
+    // $totalDays = 14;
+        // $selectedDate = Carbon::parse($request->tanggal); // ganti dengan tanggal yang dipilih
+        // $startDate = $selectedDate->copy()->subDays(14);
+        // $endDate = $selectedDate;
+        // for ($month = 1; $month <= 12; $month++) {
+        //     $totalDays += cal_days_in_month(CAL_GREGORIAN, $month, $year-1);
+        // }
+
+        // $demand = frakturJual::where('kodeMakanan','like','%'.$food->kode.'%')
+            //                 ->whereYear('tanggal',$year-1)
+            //                 ->sum('qty');
+
+                dd("holding Cost",$hodingCost,
+                "Kode Makanan",$food->kode,
+                "Demand",$demand,
+                "EOQ",$eoq,
+                "SafetyStoc",$food->safetyStock, 
+                "Life Time",$food->lifeTime,
+                "ROP",$rop,
+                "Tanggal",$request->tanggal,
+                "startDate",$startDate->format("d-M-Y"),
+                "EndDate",$endDate->format("d-M-Y"),
+                "totalDays",$totalDays,
+                "day",$day,
+                "existingRecord",$existingRecord,
+                "periode",$periode->format("d-M-Y"),
+                "periode Asli",$periode->format('Y-m') . '-' . ($day <= 15 ? '1' : '16'),
+                );
+
+        //     $hodingCost = ceil(($food->hargaJual*$food->qty)/((100/100)+(20/100)));
+        //     $demand = frakturJual::where('kodeMakanan', 'like', '%' . $food->kode . '%')
+        //         ->whereBetween('tanggal', [$startDate, $endDate])
+        //         ->sum('qty');
+        //     if ($hodingCost>0) {
+        //         $eoq = round(sqrt(2*$food->biayaPemesanan*$demand/$hodingCost),1);
+        //         $rop = round($food->safetyStock*($demand/$totalDays)*$food->lifeTime,1);
+        //     }else{
+        //         $eoq = 0;
+        //         $rop = round($food->safetyStock*($demand/$totalDays)*$food->lifeTime,1);
+        //     }
+
+        //     eoqtable::create([
+        //         'kodeMakanan' => $food->kode,
+        //         'BiayaPenyimpanan' => $hodingCost,
+        //         'EOQ' => $eoq,
+        //         'ROP' => $rop,
+        //     ]);
+        // }
+        // return redirect('/eoq')->with('success','Data Di Update');
+    */
+    public function updateEoq(Request $request)
+    {      
+        $foods = food::all();
+        $selectedDate = Carbon::parse($request->tanggal);
+        $day = $selectedDate->day;
+
+        if ($day <= 15) {
+            $startDate = $selectedDate->copy()->subMonth()->startOfMonth()->addDays(15);
+            $endDate = $selectedDate->copy()->subMonth()->endOfMonth();
+        } else {
+            $startDate = $selectedDate->copy()->startOfMonth();
+            $endDate = $selectedDate->copy()->startOfMonth()->addDays(14);
         }
+        $totalDays = $startDate->diffInDays($endDate) + 1;
+        foreach ($foods as $food) {
+            $existingRecord = eoqtable::where('kodeMakanan', $food->kode)
+            ->where('periode', $startDate->format('Y-m') . '-' . ($day <= 15 ? '1' : '16'))
+            ->first();
+
+            if (!$existingRecord) {
+                $hodingCost = ceil(($food->hargaJual * $food->qty) / ((100 / 100) + (20 / 100)));
+                $demand = frakturJual::where('kodeMakanan', 'like', '%' . $food->kode . '%')
+                    ->whereBetween('tanggal', [$startDate, $endDate])
+                    ->sum('qty');
+
+                if ($hodingCost > 0) {
+                    $eoq = round(sqrt(2 * $food->biayaPemesanan * $demand / $hodingCost), 1);
+                    $rop = round($food->safetyStock * ($demand / $totalDays) * $food->lifeTime, 1);
+                } else {
+                    $eoq = 0;
+                    $rop = round($food->safetyStock * ($demand / $totalDays) * $food->lifeTime, 1);
+                }
+
+                eoqtable::create([
+                    'kodeMakanan' => $food->kode,
+                    'BiayaPenyimpanan' => $hodingCost,
+                    'EOQ' => $eoq,
+                    'ROP' => $rop,
+                    'periode' => $startDate->copy()->addMonth()->format('Y-m') . '-' . ($day <= 15 ? '1' : '16'), 
+                ]);
+            }
+        }
+        Session::put('selected_date', $request->tanggal);
         return redirect('/eoq')->with('success','Data Di Update');
     }
     
