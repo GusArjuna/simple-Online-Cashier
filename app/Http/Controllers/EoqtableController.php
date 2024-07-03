@@ -27,8 +27,8 @@ class EoqtableController extends Controller
         $supplierCount = supplier::count();
         $foods = food::orderBy('penjualan','desc')->paginate(15);
 
-        $startOfWeek = $this->generateMonthlyDates();
-        $foodAndEoqByWeeks = $this->getEoqData($startOfWeek);
+        $monthlyDates = $this->generateMonthlyDates('forward'); // foward or backward
+        $foodAndEoqByWeeks = $this->getEoqData($monthlyDates);
         $groupedData = $this->groupEoqData($foodAndEoqByWeeks);
         $products = $this->getProductNames($groupedData);
         $colors = $this->generateColors($products);
@@ -41,6 +41,9 @@ class EoqtableController extends Controller
             "memberCount" => $memberCount,
             "supplierCount" => $supplierCount,
             "foods" => $foods,
+            "groupedData" => $groupedData,
+            "monthlyDates" => $monthlyDates,
+            "colors" => $colors,
         ]);
     }
 
