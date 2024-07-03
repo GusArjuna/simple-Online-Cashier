@@ -20,6 +20,7 @@ class food extends Model
         'lifeTime',
         'keterangan',
         'penjualan',
+        'pembelian',
     ];
     protected $attributes =[
         'penjualan' => 0,

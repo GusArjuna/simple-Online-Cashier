@@ -30,7 +30,7 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-floating">
-                                <select class="form-control @error('supplier') is-invalid @enderror" aria-label=".form-select-sm example" name="supplier" id="supplier">
+                                <select class="form-control @error('supplier') is-invalid @enderror" aria-label=".form-select-sm example" name="supplier" id="supplier" required>
                                     <option value="">- Pilih Salah Satu -</option>
                                     @foreach ($suppliers as $supplier)
                                     <option {{ (old('supplier')==$supplier->kode)?"selected":"" }} value="{{ $supplier->kode }}">{{ $supplier->kode }} - {{ $supplier->nama }}</option>

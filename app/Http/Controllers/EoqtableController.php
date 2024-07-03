@@ -137,7 +137,7 @@ class EoqtableController extends Controller
         if ($selectedDate) {
             $selectedDate = Carbon::parse($selectedDate);
             $day = $selectedDate->day;
-            $periode = $selectedDate->format('Y-m') . '-' . ($day <= 15 ? '1' : '16');
+            $periode = $selectedDate->format('Y-m') . '-' . ($day <= 15 ? '01' : '16');
             $eoqTables->where('periode', $periode);
         }
         if(request('search')){                                     
@@ -237,7 +237,7 @@ class EoqtableController extends Controller
         $totalDays = $startDate->diffInDays($endDate) + 1;
         foreach ($foods as $food) {
             $existingRecord = eoqtable::where('kodeMakanan', $food->kode)
-            ->where('periode', $startDate->format('Y-m') . '-' . ($day <= 15 ? '1' : '16'))
+            ->where('periode', $startDate->format('Y-m') . '-' . ($day <= 15 ? '01' : '16'))
             ->first();
 
             if (!$existingRecord) {
@@ -259,9 +259,10 @@ class EoqtableController extends Controller
                     'BiayaPenyimpanan' => $hodingCost,
                     'EOQ' => $eoq,
                     'ROP' => $rop,
-                    'periode' => $startDate->copy()->addMonth()->format('Y-m') . '-' . ($day <= 15 ? '01' : '16'), 
+                    'periode' => ($day <= 15 ? $startDate->copy()->addMonth()->format('Y-m') . '-' . ($day <= 15 ? '01' : '16') : $startDate->copy()->format('Y-m') . '-' . ($day <= 15 ? '01' : '16')), 
                 ]);
             }
+            
         }
         Session::put('selected_date', $request->tanggal);
         return redirect('/eoq')->with('success','Data Di Update');

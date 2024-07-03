@@ -24,6 +24,7 @@ return new class extends Migration
             $table->integer('lifeTime');
             $table->string('keterangan');
             $table->string('penjualan')->nullable();
+            $table->string('pembelian')->nullable();
             $table->timestamps();
         });
     }

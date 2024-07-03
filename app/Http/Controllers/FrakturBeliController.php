@@ -83,8 +83,12 @@ class FrakturBeliController extends Controller
        for ($i=0; $i < count($request->qty); $i++) { 
             $food = food::query()->where('kode','like','%'.$validatedData['food'][$i].'%')->get()->first();
             $newQty = $food->qty + intval($validatedData['qty'][$i]);
+            $pembelian = $food->pembelian+intval($validatedData['qty'][$i]);
             food::where('id',$food->id)
-                    ->update(['qty'=> $newQty]);
+                    ->update([
+                        'qty'=> $newQty,
+                        'pembelian' => $pembelian,
+                    ]);
            
             frakturBeli::create([
                 'kodeTransaksi' => $validatedData['nomorRegis'],
