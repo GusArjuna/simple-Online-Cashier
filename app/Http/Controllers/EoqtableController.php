@@ -230,14 +230,16 @@ class EoqtableController extends Controller
         if ($day <= 15) {
             $startDate = $selectedDate->copy()->subMonth()->startOfMonth()->addDays(15);
             $endDate = $selectedDate->copy()->subMonth()->endOfMonth();
+            $check = $startDate->copy()->addMonth();
         } else {
             $startDate = $selectedDate->copy()->startOfMonth();
             $endDate = $selectedDate->copy()->startOfMonth()->addDays(14);
+            $check = $startDate->copy();
         }
         $totalDays = $startDate->diffInDays($endDate) + 1;
         foreach ($foods as $food) {
             $existingRecord = eoqtable::where('kodeMakanan', $food->kode)
-            ->where('periode', $startDate->format('Y-m') . '-' . ($day <= 15 ? '01' : '16'))
+            ->where('periode', $check->format('Y-m') . '-' . ($day <= 15 ? '01' : '16'))
             ->first();
 
             if (!$existingRecord) {
@@ -253,7 +255,6 @@ class EoqtableController extends Controller
                     $eoq = 0;
                     $rop = round($food->safetyStock * ($demand / $totalDays) * $food->lifeTime, 1);
                 }
-
                 eoqtable::create([
                     'kodeMakanan' => $food->kode,
                     'BiayaPenyimpanan' => $hodingCost,

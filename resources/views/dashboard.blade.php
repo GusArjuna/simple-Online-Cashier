@@ -15,7 +15,7 @@
     <div class="col-xxl-4 col-md-6">
         <div class="card info-card sales-card">
           <div class="card-body">
-            <h5 class="card-title">Foods</h5>
+            <h5 class="card-title">Makanan</h5>
 
             <div class="d-flex align-items-center">
               <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -73,7 +73,7 @@
       <div class="col-12">
 
         <div class="card-body">
-          <h5 class="card-title">Reports <span>/Today</span></h5>
+          <h5 class="card-title">Laporan <span></span></h5>
 
           <!-- Line Chart -->
           <div id="reportsChart"></div>
@@ -135,7 +135,7 @@
         <div class="card">
 
           <div class="card-body">
-            <h5 class="card-title">Reports</h5>
+            <h5 class="card-title">Laporan Penjualan</h5>
 
             <!-- Top Selling -->
             <div class="col-12">
@@ -143,26 +143,28 @@
   
                   {{ $foods->links() }}
                   <div class="card-body pb-0">
-                    <h5 class="card-title">Top Selling</h5>
+                    <h5 class="card-title">Penjualan Terbaik</h5>
                     
                     <table class="table table-borderless">
                       <thead>
                         <tr>
-                          <th scope="col">Product</th>
-                          <th scope="col">Purchase Price</th>
-                          <th scope="col">Selling Price</th>
-                          <th scope="col">Purchase Amount</th>
-                          <th scope="col">Quantity Sold</th>
-                          <th scope="col">Total Purchases</th>
-                          <th scope="col">Income</th>
-                          <th scope="col">Profit</th>
-                          <th scope="col">Stats</th>
+                          <th scope="col">Produk</th>
+                          <th scope="col">Stok</th>
+                          <th scope="col">Harga Beli</th>
+                          <th scope="col">Harga Jual</th>
+                          <th scope="col">Jumlah Pembelian</th>
+                          <th scope="col">Jumlah Penjualan</th>
+                          <th scope="col">Total Pembelian</th>
+                          <th scope="col">Total Penjualan</th>
+                          <th scope="col">Keuntungan</th>
+                          <th scope="col">Status Order</th>
                         </tr>
                       </thead>
                       <tbody>
                         @foreach ($foods as $foods)
                         <tr>
                             <td> {{ $foods->kode.' - '. $foods->nama}} </td>
+                            <td> {{ $foods->qty }} </td>
                             <td> {{ $foods->hargaBeli }} </td>
                             <td> {{ $foods->hargaJual }} </td>
                             <td> {{ $foods->pembelian}} </td>

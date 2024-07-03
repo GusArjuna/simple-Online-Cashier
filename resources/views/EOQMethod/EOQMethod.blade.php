@@ -70,6 +70,7 @@
                             <th>Biaya Penyimpanan</th>
                             <th>Repeat Order</th>
                             <th>Economic Order Quantity</th>
+                            <th>Status Order</th>
                         </tr>
                     </thead>
                     <tfoot>
@@ -83,6 +84,7 @@
                             <th>Biaya Penyimpanan</th>
                             <th>Repeat Order</th>
                             <th>Economic Order Quantity</th>
+                            <th>Status Order</th>
                         </tr>
                     </tfoot>
                     <tbody>
@@ -125,6 +127,14 @@
                             <td> {{ $eoqTable->biayaPenyimpanan }} </td>
                             <td> {{ $eoqTable->ROP}}</td>
                             <td> {{ $eoqTable->EOQ}}</td>
+                            <td>
+                                @foreach ($foods as $food)
+                                    @if ($food->kode == $eoqTable->kodeMakanan)
+                                        {!! $eoqTable->ROP >= $food->qty ? '<span class="badge bg-danger">Kulak</span>' : '<span class="badge bg-success">Aman</span>' !!}
+                                        @break
+                                    @endif
+                                @endforeach
+                            </td>
                         </tr>
                         @endforeach
                     </tbody>
