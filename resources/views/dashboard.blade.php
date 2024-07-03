@@ -71,6 +71,67 @@
 
       <!-- Reports -->
       <div class="col-12">
+
+        <div class="card-body">
+          <h5 class="card-title">Reports <span>/Today</span></h5>
+
+          <!-- Line Chart -->
+          <div id="reportsChart"></div>
+
+          <script>
+              var groupedData = @json($groupedData);
+              var monthlyDates = @json($monthlyDates);
+              var colors = @json($colors);
+
+            document.addEventListener("DOMContentLoaded", () => {
+              new ApexCharts(document.querySelector("#reportsChart"), {
+                series: groupedData.map(item => ({
+                    name: item.name,
+                    data: item.data
+                })),
+                chart: {
+                  height: 350,
+                  type: 'area',
+                  toolbar: {
+                    show: false
+                  },
+                },
+                markers: {
+                  size: 4
+                },
+                colors: colors,
+                fill: {
+                  type: "gradient",
+                  gradient: {
+                    shadeIntensity: 1,
+                    opacityFrom: 0.3,
+                    opacityTo: 0.4,
+                    stops: [0, 90, 100]
+                  }
+                },
+                dataLabels: {
+                  enabled: false
+                },
+                stroke: {
+                  curve: 'smooth',
+                  width: 2
+                },
+                xaxis: {
+                  type: 'date',
+                  categories: monthlyDates
+                },
+                tooltip: {
+                  x: {
+                    format: 'dd/MM/yy'
+                  },
+                }
+              }).render();
+            });
+          </script>
+          <!-- End Line Chart -->
+
+        </div>
+
         <div class="card">
 
           <div class="card-body">

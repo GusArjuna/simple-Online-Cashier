@@ -26,13 +26,106 @@ class EoqtableController extends Controller
         $memberCount = member::count();
         $supplierCount = supplier::count();
         $foods = food::orderBy('penjualan','desc')->paginate(15);
+
+        $monthlyDates = $this->generateMonthlyDates('forward'); // foward or backward
+        $foodAndEoqByWeeks = $this->getEoqData($monthlyDates);
+        $groupedData = $this->groupEoqData($foodAndEoqByWeeks);
+        $products = $this->getProductNames($groupedData);
+        $colors = $this->generateColors($products);
+
+        // dd($startOfWeek, $groupedData, $products, $colors);
+
         return view("dashboard",[
             "title" => "Dashboard",
             "foodCount" => $foodCount,
             "memberCount" => $memberCount,
             "supplierCount" => $supplierCount,
             "foods" => $foods,
+            "groupedData" => $groupedData,
+            "monthlyDates" => $monthlyDates,
+            "colors" => $colors,
         ]);
+    }
+
+    function generateMonthlyDates(string $direction = 'forward') {
+        $dates = [];
+        $currentDate = now();
+    
+        for ($i = 0; count($dates) < 7; $i++) {
+            $firstDayOfMonth = $currentDate->copy()->startOfMonth();
+            $dates[] = $firstDayOfMonth->format("Y-m-d");
+    
+            $sixteenthDayOfMonth = $currentDate->copy()->startOfMonth()->addDays(15);
+            $dates[] = $sixteenthDayOfMonth->format("Y-m-d");
+    
+            if ($direction === 'forward') {
+                $currentDate->addMonths(1);
+            } elseif ($direction === 'backward') {
+                $currentDate->subMonths(1);
+            } else {
+                return 'Invalid direction. Please specify "forward" or "backward".';
+            }
+        }
+    
+        return $dates;
+    }
+
+    function getEoqData($startOfWeek) {
+        $foodAndEoqByWeeks = [];
+    
+        foreach ($startOfWeek as $week) {
+            $eoqData = eoqtable::join('food', 'food.kode', 'eoqtables.kodeMakanan')
+                ->where("periode", $week)
+                ->orderBy('EOQ', 'desc')
+                ->limit(10)
+                ->get();
+    
+            foreach ($eoqData as $eoq) {
+                $foodName = $eoq->nama;
+                $eoqValue = $eoq->EOQ;
+    
+                $found = false;
+                foreach ($foodAndEoqByWeeks as &$item) {
+                    if ($item['name'] === $foodName) {
+                        $item['data'][] = $eoqValue;
+                        $found = true;
+                        break;
+                    }
+                }
+    
+                if (!$found) {
+                    $foodAndEoqByWeeks[] = ['name' => $foodName, 'data' => [$eoqValue]];
+                }
+            }
+        }
+    
+        return $foodAndEoqByWeeks;
+    }
+    
+
+    function groupEoqData($foodAndEoqByWeeks) {
+        $groupedData = collect($foodAndEoqByWeeks)->groupBy('name')->map(function ($item) {
+            return ['name' => $item[0]['name'], 'data' => $item->pluck('data')->flatten()->toArray()];
+        })->values()->all();
+    
+        return $groupedData;
+    }
+    
+    function getProductNames($groupedData) {
+        $products = array_map(function ($item) {
+            return $item['name'];
+        }, $groupedData);
+    
+        return $products;
+    }
+    
+    function generateColors($products) {
+        $colors = [];
+        foreach ($products as $product) {
+            $colors[] = '#' . substr(md5($product), 0, 6);
+        }
+    
+        return $colors;
     }
 
     public function index()
@@ -166,7 +259,7 @@ class EoqtableController extends Controller
                     'BiayaPenyimpanan' => $hodingCost,
                     'EOQ' => $eoq,
                     'ROP' => $rop,
-                    'periode' => $startDate->copy()->addMonth()->format('Y-m') . '-' . ($day <= 15 ? '1' : '16'), 
+                    'periode' => $startDate->copy()->addMonth()->format('Y-m') . '-' . ($day <= 15 ? '01' : '16'), 
                 ]);
             }
         }
