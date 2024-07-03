@@ -29,23 +29,9 @@
             <form action="/eoq" method="post">
                 @csrf
                 <div class="input-group mb-3">
-                    <label class="input-group-text rounded-left" style="border-radius: 0" for="inputGroupSelect01">Tahun</label>
-                    <select class="form-select" name="tahun">
-                        <option value="">Choose Year</option>
-                        @php
-                            $start_year = date("Y") - 100; // Tahun mulai
-                            $end_year = date("Y") + 100; // Tahun akhir
-                            $tahun = $eoqTables->first()->tahun??'';
-                        @endphp
-                        @for ($i = $end_year; $i >= $start_year; $i--)
-                            @if ($i==$tahun)
-                                <option value={{ $i }} selected>{{ $i }}</option>
-                            @else
-                                <option value={{ $i }}>{{ $i }}</option>
-                            @endif
-                        @endfor
-                    </select>
-                  </div>
+                    <label class="input-group-text rounded-left" style="border-radius: 0" for="tanggal">Tanggal</label>
+                    <input type="date" class="form-control" id="tanggal" name="tanggal" value="{{ old('tanggal', $selectedDate ?? '') }}">
+                </div>
                   <button type="submit" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm">
                     <i class="fas fa-undo fa-sm text-white-50"></i>Hitung EOQ</a>
                 </button>
@@ -80,7 +66,7 @@
                             <th>Kode - Nama Makanan</th>
                             <th>qty</th>
                             <th>Safety Stock</th>
-                            <th>Life Time</th>
+                            <th>Litetime</th>
                             <th>Biaya Penyimpanan</th>
                             <th>Repeat Order</th>
                             <th>Economic Order Quantity</th>
@@ -93,7 +79,7 @@
                             <th>Kode - Nama Makanan</th>
                             <th>qty</th>
                             <th>Safety Stock</th>
-                            <th>Life Time</th>
+                            <th>Litetime</th>
                             <th>Biaya Penyimpanan</th>
                             <th>Repeat Order</th>
                             <th>Economic Order Quantity</th>

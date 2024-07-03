@@ -13,5 +13,6 @@ class eoqtable extends Model
         'EOQ',
         'ROP',
         'BiayaPenyimpanan',
+        'periode',
     ];
 }

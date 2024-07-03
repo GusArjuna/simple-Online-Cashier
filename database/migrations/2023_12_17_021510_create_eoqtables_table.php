@@ -17,6 +17,7 @@ return new class extends Migration
             $table->float('biayaPenyimpanan');
             $table->float('EOQ');
             $table->float('ROP');
+            $table->string('periode');
             $table->timestamps();
         });
     }
