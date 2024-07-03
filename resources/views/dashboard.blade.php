@@ -149,21 +149,33 @@
                       <thead>
                         <tr>
                           <th scope="col">Product</th>
-                          <th scope="col">Price</th>
-                          <th scope="col">Sold</th>
-                          <th scope="col">Revenue</th>
+                          <th scope="col">Purchase Price</th>
+                          <th scope="col">Selling Price</th>
+                          <th scope="col">Purchase Amount</th>
+                          <th scope="col">Quantity Sold</th>
+                          <th scope="col">Total Purchases</th>
+                          <th scope="col">Income</th>
+                          <th scope="col">Profit</th>
+                          <th scope="col">Stats</th>
                         </tr>
                       </thead>
                       <tbody>
                         @foreach ($foods as $foods)
                         <tr>
                             <td> {{ $foods->kode.' - '. $foods->nama}} </td>
+                            <td> {{ $foods->hargaBeli }} </td>
                             <td> {{ $foods->hargaJual }} </td>
+                            <td> {{ $foods->pembelian}} </td>
                             <td> {{ $foods->penjualan}} </td>
                             @php
-                                $revenue = $foods->penjualan*$foods->hargaJual;
+                                $totalJual = $foods->penjualan*$foods->hargaJual;
+                                $totalBeli = $foods->pembelian*$foods->hargaBeli;
+                                $stats = $totalJual-$totalBeli;
                             @endphp
-                            <td> {{ $revenue}}</td>
+                            <td> {{ $totalBeli}}</td>
+                            <td> {{ $totalJual}}</td>
+                            <td> {{ $stats}}</td>
+                            <td>{!! $stats <= 0 ? '<span class="badge bg-danger">Non Profit</span>' : '<span class="badge bg-success">Profit</span>' !!}</td>
                         </tr>
                         @endforeach
                         <tr>
