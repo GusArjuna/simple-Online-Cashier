@@ -102,7 +102,7 @@
                       <div class="col-md-4">
                         <div class="form-floating">
                             <input type="number" min=1 class="form-control mb-3" id="lifeTime" placeholder="" name="lifeTime" value="{{ old('lifeTime',$food->lifeTime) }}" onkeyup="this.value = this.value.toUpperCase()" required>
-                            <label for="lifeTime">life Time</label>
+                            <label for="lifeTime">liteTime</label>
                             @error('lifeTime')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
