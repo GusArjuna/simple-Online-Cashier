@@ -28,7 +28,7 @@ class EoqtableController extends Controller
         $supplierCount = supplier::count();
         $foods = food::orderBy('penjualan', 'desc')->paginate(15);
 
-        $monthlyDates = $this->generateMonthlyDates('forward'); // foward or backward
+        $monthlyDates = $this->generateMonthlyDates(2, 2);
         $groupedData = $this->getEoqData($monthlyDates);
         $products = $this->getProductNames($groupedData);
         $colors = $this->generateColors($products);
@@ -47,28 +47,23 @@ class EoqtableController extends Controller
         ]);
     }
 
-    function generateMonthlyDates(string $direction = 'forward')
+    function generateMonthlyDates(int $monthsBackward, int $monthsForward)
     {
         $dates = [];
         $currentDate = now();
-
-        for ($i = 0; count($dates) < 7; $i++) {
-            $firstDayOfMonth = $currentDate->copy()->startOfMonth();
+    
+        for ($i = $monthsBackward; $i >= -$monthsForward; $i--) {
+            $newDate = $currentDate->copy()->addMonths($i);
+            $firstDayOfMonth = $newDate->copy()->startOfMonth();
             $dates[] = $firstDayOfMonth->format("Y-m-d");
-
-            $sixteenthDayOfMonth = $currentDate->copy()->startOfMonth()->addDays(15);
+    
+            $sixteenthDayOfMonth = $newDate->copy()->startOfMonth()->addDays(15);
             $dates[] = $sixteenthDayOfMonth->format("Y-m-d");
-
-            if ($direction === 'forward') {
-                $currentDate->addMonths(1);
-            } elseif ($direction === 'backward') {
-                $currentDate->subMonths(1);
-            } else {
-                return 'Invalid direction. Please specify "forward" or "backward".';
-            }
         }
+    
+        asort($dates);
 
-        return $dates;
+        return array_values($dates);
     }
 
     function initFoodAndEoqWeek($startOfWeek){
