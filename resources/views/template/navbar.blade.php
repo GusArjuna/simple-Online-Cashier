@@ -113,12 +113,12 @@
           </li>
           <li>
             <a href="{{ url('/foods') }}">
-              <i class="bi bi-circle"></i><span>Makanan</span>
+              <i class="bi bi-circle"></i><span>Produk</span>
             </a>
           </li>
           <li>
             <a href="{{ url('/foodCategories') }}">
-              <i class="bi bi-circle"></i><span>Kelompok Makanan</span>
+              <i class="bi bi-circle"></i><span>Kelompok Produk</span>
             </a>
           </li>
           <li>

@@ -25,7 +25,7 @@ class MemberController extends Controller
         }
         return view('members/member',[
             "title"=>"Daftar Member",
-            "members" => $members->paginate(15),
+            "members" => $members->orderBy('created_at', 'desc')->paginate(15),
             ]);
     }
 

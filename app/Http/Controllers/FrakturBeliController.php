@@ -39,7 +39,7 @@ class FrakturBeliController extends Controller
         }
         return view('buyFractures/buyFracture',[
             "title"=>"Fraktur Beli",
-            "buyFracturenumbers" => $buyFracturenumbers->paginate(15),
+            "buyFracturenumbers" => $buyFracturenumbers->orderBy('created_at', 'desc')->paginate(15),
             "suppliers" => $suppliers,
             ]);
     }

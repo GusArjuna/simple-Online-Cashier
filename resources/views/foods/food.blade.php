@@ -1,11 +1,11 @@
 @extends('template.navbar')
 @section('pagetitle')
 <div class="pagetitle">
-    <h1>Food</h1>
+    <h1>Produk</h1>
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>
-        <li class="breadcrumb-item active">Food</li>
+        <li class="breadcrumb-item active">Produk</li>
       </ol>
     </nav>
   </div><!-- End Page Title -->   
@@ -27,7 +27,7 @@
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <a href="{{ url('/food/datain') }}" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i
-            class="bi bi-plus"></i> Tambah Makanan</a>
+            class="bi bi-plus"></i> Tambah Produk</a>
             <form action="/food/printdel" method="post">
                 @csrf
                 {{-- <button type="submit" value="true" name="generate" class="btn btn-primary">
