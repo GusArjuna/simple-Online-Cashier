@@ -22,7 +22,7 @@ class FoodCategoryController extends Controller
         }
         return view('foodCategories/foodCategory',[
             "title"=>"Daftar Makanan",
-            "foodCategories" => $foodCategories->paginate(15),
+            "foodCategories" => $foodCategories->orderBy('created_at', 'desc')->paginate(15),
         ]);
     }
 

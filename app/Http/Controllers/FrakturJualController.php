@@ -45,7 +45,7 @@ class FrakturJualController extends Controller
         }
         return view('sellFractures/sellFracture',[
             "title"=>"Fraktur Jual",
-            "sellFracturenumbers" => $sellFracturenumbers->paginate(15),
+            "sellFracturenumbers" => $sellFracturenumbers->orderBy('created_at', 'desc')->paginate(15),
             "foods" => $foods,
             "members" => $members,
             ]);

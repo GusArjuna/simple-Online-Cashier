@@ -130,7 +130,7 @@
                             <td>
                                 @foreach ($foods as $food)
                                     @if ($food->kode == $eoqTable->kodeMakanan)
-                                        {!! $eoqTable->ROP >= $food->qty ? '<span class="badge bg-danger">Kulak</span>' : '<span class="badge bg-success">Aman</span>' !!}
+                                        {!! $food->safetyStock > $food->qty ? '<span class="badge bg-danger">Kulak</span>' : '<span class="badge bg-success">Aman</span>' !!}
                                         @break
                                     @endif
                                 @endforeach

@@ -33,7 +33,7 @@ class FoodController extends Controller
         }
         return view('foods/food',[
             "title"=>"Daftar Makanan",
-            "foods" => $foods->paginate(15),
+            "foods" => $foods->orderBy('created_at', 'desc')->paginate(15),
             "foodCategories" => $foodCategories,
         ]);
     }

@@ -24,7 +24,7 @@ class SupplierController extends Controller
         }
         return view('suppliers/supplier',[
             "title"=>"Daftar Supplier",
-            "suppliers" => $suppliers->paginate(15),
+            "suppliers" => $suppliers->orderBy('created_at', 'desc')->paginate(15),
         ]);
     }
 
