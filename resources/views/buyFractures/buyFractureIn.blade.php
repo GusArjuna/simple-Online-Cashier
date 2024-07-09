@@ -47,7 +47,7 @@
                           </div>
                           <div class="col-md-3">
                               <button type="button" id="addBtn" class="btn btn-primary rounded-pill">
-                                <i class="bi bi-plus-circle-dotted"> Tambah Makanan</i>
+                                <i class="bi bi-plus-circle-dotted"> Tambah Produk</i>
                               </button>
                           </div>
                           <div class="col-md-9">
@@ -89,7 +89,7 @@
                                     <option {{ (old('food')==$food->kode)?"selected":"" }} harga="{{ $food->hargaBeli }}" value="{{ $food->kode }}">{{ $food->kode }} - {{ $food->nama }}</option>
                                     @endforeach
                                 </select>
-                                <label>Nama Makanan</label>
+                                <label>Nama Produk</label>
                                 @error('keterangan')
                                     <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror

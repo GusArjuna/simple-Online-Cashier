@@ -89,7 +89,7 @@
                                     <option {{ (old('food')==$food->kode)?"selected":"" }} harga="{{ $food->hargaJual }}" value="{{ $food->kode }}">{{ $food->kode }} - {{ $food->nama }}</option>
                                     @endforeach
                                 </select>
-                                <label>Nama Makanan</label>
+                                <label>Nama Produk</label>
                                 @error('keterangan')
                                     <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror

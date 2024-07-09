@@ -6,7 +6,7 @@
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>
         <li class="breadcrumb-item">Add</li>
-        <li class="breadcrumb-item active">Food Category</li>
+        <li class="breadcrumb-item active">Product Category</li>
       </ol>
     </nav>
   </div><!-- End Page Title -->   
@@ -15,7 +15,7 @@
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3 mb-3">
-            <h6 class="m-0 font-weight-bold text-primary">Data Kategori Makanan</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Data Kategori Produk</h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -24,7 +24,7 @@
                     <div class="row g-3">
                         <div class="col-md-6">
                             <div class="form-floating">
-                                <input type="text" class="form-control mb-3" id="kode" placeholder="Kode Kelompok Makanan" name="kode" value="{{ old('kode') }}" onkeyup="this.value = this.value.toUpperCase()" required autofocus>
+                                <input type="text" class="form-control mb-3" id="kode" placeholder="Kode Kelompok Produk" name="kode" value="{{ old('kode') }}" onkeyup="this.value = this.value.toUpperCase()" required autofocus>
                                 <label for="kode">Kode</label>
                                 @error('kode')
                                         <div class="alert alert-danger">{{ $message }}</div>
@@ -33,7 +33,7 @@
                           </div>
                           <div class="col-md-6">
                             <div class="form-floating">
-                                <input type="text" class="form-control mb-3" id="nama" placeholder="Nama Kelompok Makanan" name="nama" value="{{ old('nama') }}" onkeyup="this.value = this.value.toUpperCase()" required>
+                                <input type="text" class="form-control mb-3" id="nama" placeholder="Nama Kelompok Produk" name="nama" value="{{ old('nama') }}" onkeyup="this.value = this.value.toUpperCase()" required>
                                 <label for="nama">Nama</label>
                                 @error('nama')
                                     <div class="alert alert-danger">{{ $message }}</div>

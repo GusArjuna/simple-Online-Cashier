@@ -31,9 +31,9 @@
                 <div class="col-sm-6">
                     <h5 class="mb-3">From:</h5>
                     <h3 class="text-dark mb-1">Toko Hikmah</h3>
-                    <div>Jalan Jaya</div>
-                    <div>Email: ajiWibowo@gmail.com</div>
-                    <div>Phone: +87878787</div>
+                    <div>Jl Losari Timur no.16 gedeg Mojokerto </div>
+                    <div>Email: ajiwibowo204@gmail.com</div>
+                    <div>Phone: +6285800028600</div>
                 </div>
                 <div class="col-sm-6 ">
                     <h5 class="mb-3">To:</h5>

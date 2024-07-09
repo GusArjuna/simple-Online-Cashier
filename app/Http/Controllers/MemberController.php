@@ -43,7 +43,7 @@ class MemberController extends Controller
     public function store(StorememberRequest $request)
     {
         $validatedData = $request->validate([
-            'kode' => 'required',
+            'kode' => ['required','unique:members'],
             'nama' => 'required',
             'noTelp' => 'required',
             'alamat' => 'required',

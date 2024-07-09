@@ -6,7 +6,7 @@
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>
         <li class="breadcrumb-item">Edit</li>
-        <li class="breadcrumb-item active">Food</li>
+        <li class="breadcrumb-item active">Product</li>
       </ol>
     </nav>
   </div><!-- End Page Title -->   
@@ -15,7 +15,7 @@
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3 mb-3">
-            <h6 class="m-0 font-weight-bold text-primary">Data Makanan</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Data Produk</h6>
         </div>
         <div class="card-body">
             <form action="/food/{{ $food->id }}" method="post">
