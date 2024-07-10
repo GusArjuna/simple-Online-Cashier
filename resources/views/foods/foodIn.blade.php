@@ -1,7 +1,7 @@
 @extends('template.navbar')
 @section('pagetitle')
 <div class="pagetitle">
-    <h1>Food</h1>
+    <h1>Product</h1>
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>
@@ -47,7 +47,7 @@
                                 <option {{ (old('foodCategory')==$foodCategory->kode)?"selected":"" }} value="{{ $foodCategory->kode }}">{{ $foodCategory->kode }} - {{ $foodCategory->nama }}</option>
                                 @endforeach
                             </select>
-                            <label for="foodCategory">Kategori Makanan</label>
+                            <label for="foodCategory">Kategori Produk</label>
                             @error('keterangan')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
