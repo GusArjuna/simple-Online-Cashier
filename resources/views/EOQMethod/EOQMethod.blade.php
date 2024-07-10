@@ -46,7 +46,7 @@
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Detail EOQ Makanan</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Detail EOQ Produk</h6>
         </div>
         @if (session()->has('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
@@ -63,7 +63,7 @@
                         <tr>
                             {{-- <th></th> --}}
                             <th>No</th>
-                            <th>Kode - Nama Makanan</th>
+                            <th>Kode - Nama Produk</th>
                             <th>qty</th>
                             <th>Safety Stock</th>
                             <th>Litetime</th>
@@ -77,7 +77,7 @@
                         <tr>
                             {{-- <th></th> --}}
                             <th>No</th>
-                            <th>Kode - Nama Makanan</th>
+                            <th>Kode - Nama Produk</th>
                             <th>qty</th>
                             <th>Safety Stock</th>
                             <th>Litetime</th>

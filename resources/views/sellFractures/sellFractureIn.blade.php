@@ -17,6 +17,9 @@
         <div class="card-header py-3 mb-3">
             <h6 class="m-0 font-weight-bold text-primary">Pembuatan Faktur Jual</h6>
         </div>
+        @if (session()->has('error'))
+        <div class="alert alert-danger">{{ session('error') }}</div>
+        @endif
         <div class="card-body">
             <div class="table-responsive">
                 <form action="/sellFracture/datain" method="post">
@@ -43,11 +46,11 @@
                             </div>
                         </div>
                           <div id="inputdata">
-
+                            
                           </div>
                           <div class="col-md-3">
                               <button type="button" id="addBtn" class="btn btn-primary rounded-pill">
-                                <i class="bi bi-plus-circle-dotted"> Tambah Makanan</i>
+                                <i class="bi bi-plus-circle-dotted"> Tambah Produk</i>
                               </button>
                           </div>
                           <div class="col-md-9">

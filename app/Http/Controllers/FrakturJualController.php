@@ -80,7 +80,7 @@ class FrakturJualController extends Controller
         for ($i=0; $i < count($request->qty); $i++) {
             $cek = food::query()->where('kode','like','%'.$request->food[$i].'%')->get()->first();
             if ($cek->qty<$request->qty[$i]) {
-                return redirect('/sellFractures/datain')->with('error','Quantity melebihi stock');
+                return redirect('/sellFracture/datain')->with('error','Quantity melebihi stock');
             }
         }
         

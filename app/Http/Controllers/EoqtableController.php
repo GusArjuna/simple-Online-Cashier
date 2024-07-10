@@ -26,7 +26,7 @@ class EoqtableController extends Controller
         $foodCount = food::count();
         $memberCount = member::count();
         $supplierCount = supplier::count();
-        $foods = food::orderBy('penjualan', 'desc')->paginate(15);
+        $foods = Food::orderByRaw('CAST(penjualan AS UNSIGNED) DESC')->paginate(15);
 
         $monthlyDates = $this->generateMonthlyDates(3, 2);
         $groupedData = $this->getEoqData($monthlyDates);
@@ -266,7 +266,7 @@ class EoqtableController extends Controller
 
                 if ($hodingCost > 0) {
                     $eoq = round(sqrt(2 * $food->biayaPemesanan * $demand / $hodingCost), 1);
-                    $rop = round($food->safetyStock * ($demand / $totalDays) * $food->lifeTime, 1);
+                    $rop = round($food->safetyStock + (($demand / $totalDays) * $food->lifeTime), 1);
                 } else {
                     $eoq = 0;
                     $rop = round($food->safetyStock * ($demand / $totalDays) * $food->lifeTime, 1);

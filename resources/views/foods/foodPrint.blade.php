@@ -1,11 +1,11 @@
 @extends('template.navbar')
 @section('pagetitle')
 <div class="pagetitle">
-    <h1>Food</h1>
+    <h1>Product</h1>
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>
-        <li class="breadcrumb-item active">Food</li>
+        <li class="breadcrumb-item active">Product</li>
       </ol>
     </nav>
   </div><!-- End Page Title -->   

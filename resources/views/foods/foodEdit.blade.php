@@ -48,7 +48,7 @@
                                 <option {{ (old('foodCategory',$food->foodCategory)==$foodCategory->kode)?"selected":"" }} value="{{ $foodCategory->kode }}">{{ $foodCategory->kode }} - {{ $foodCategory->nama }}</option>
                                 @endforeach
                             </select>
-                            <label for="foodCategory">Kategori Makanan</label>
+                            <label for="foodCategory">Kategori Produk</label>
                             @error('keterangan')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
